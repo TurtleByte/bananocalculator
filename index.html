@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
 	<title>Banano Calculator</title>
-	<meta name="description" content="This is how many Banano for your points. Stop talk. Just put in the numbers and you'll get an answer." />
+	<meta name="description" content="This is how many Banano for your points. Stop asking. This is it. Just put in the numbers and you'll get your answer." />
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css'>
@@ -44,9 +44,9 @@
 						<input class="form-control" type="number" min="1" value="0" id="pendingpoints" oninput="updateValues()">
 					</div>
 				<br>
-				<label class="col-2 col-form-label">Ban Price</label>
+				<label class="col-2 col-form-label">Ban Price (If you don't input this, it won't work.)</label>
 					<div class="col-2">
-						<input class="form-control" type="number" min="0" value="0" id="banprice" oninput="updateValues()">
+						<input class="form-control" type="number" min="0" step="0.0001" value="0" id="banprice" oninput="updateValues()">
 					</div>
 			</div>
 			<div class="col-md-2">
@@ -78,7 +78,7 @@
 			output = Math.exp(-5.0657 - Math.log(banPrice) + (0.4414 * Math.log(pendingPoints))).toFixed(2);
 		} else if (pendingPoints >= 150000) {
 			output = Math.exp(-6.0370 - Math.log(banPrice) + (0.5223 * Math.log(pendingPoints))).toFixed(2);
-		} else if (pendingPoints >= 150000) {
+		} else if (pendingPoints >= 15000) {
 			output = Math.exp(-7.3263 - Math.log(banPrice) + (0.6380 * Math.log(pendingPoints))).toFixed(2);
 		} else {
 			output = Math.exp(-9.5797 - Math.log(banPrice) + (0.8545 * Math.log(pendingPoints))).toFixed(2);
