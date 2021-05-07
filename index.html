@@ -78,7 +78,7 @@
 			output = Math.exp(-5.0657 - Math.log(banPrice) + (0.4414 * Math.log(pendingPoints))).toFixed(2);
 		} else if (pendingPoints >= 150000) {
 			output = Math.exp(-6.0370 - Math.log(banPrice) + (0.5223 * Math.log(pendingPoints))).toFixed(2);
-		} else if (pendingPoints >= 15000) {
+		} else if (pendingPoints >= 30000) {
 			output = Math.exp(-7.3263 - Math.log(banPrice) + (0.6380 * Math.log(pendingPoints))).toFixed(2);
 		} else {
 			output = Math.exp(-9.5797 - Math.log(banPrice) + (0.8545 * Math.log(pendingPoints))).toFixed(2);
