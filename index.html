@@ -96,6 +96,9 @@
 		let output2 = Math.exp(-19.045 - Math.log(banPrice) + (7.7 * Math.log(Math.log(pendingPoints)))).toFixed(2);
 		if(output2 < 9.85){
 			output2 = 9.85;
+		} 
+		if (output2 >= 100 || output2 > output) {
+			output2 = output + "*"
 		}
 		
 		document.getElementById("output").innerHTML = output + " BAN";
