@@ -21,7 +21,7 @@
 <body>
 
 <!-- Page Content -->
-	<div class="container-fluid stuff col-md-4"></div>
+	<div class="container-fluid stuff col-md-3"></div>
 		<div class="container-fluid stuff col-md-8">
 			<div class="row">
 				<div class="col-lg-8">
@@ -41,7 +41,7 @@
 					<label class="col-2 col-form-label">Ban Price (USD)</label>
 						<div class="col-2">
 							<input class="form-control" type="number" min="0" step="0.0001" value="0.0367" id="banprice" oninput="updateValues()">
-							(Default is last known price used for Payouts)
+							(Default is Price of May 8 AM Payout)
 						</div>
 				</div>
 				<div class="col-md-2">
@@ -60,8 +60,16 @@
 					</h2>
 					<p align="center">An additional ~5% of all payouts lie on this curve.</p>
 				</div>
+				<div class="col-md-2">
+					<h2 align="center">
+						<span id="output3">???</span>
+						<br>
+						<small>Floor Curve Estimate</small>
+					</h2>
+					<p align="center">96% of all payouts lie above this curve. Not reliable past 540,000 points.</p>
+				</div>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-8">
 			<br>
 			Estimates are calculated to hopefully be within 1 BAN in either direction. If your payouts are not accurately depicted here despite a correct price value and correct point total, you are either "Off-Curve" or the payout equation has significantly changed. There is currently no way to reliably predict Off-Curve payouts.
 			</div>
@@ -97,13 +105,20 @@
 		let output2 = Math.exp(-19.045 - Math.log(banPrice) + (7.7 * Math.log(Math.log(pendingPoints)))).toFixed(2);
 		if(output2 < 9.85){
 			output2 = 9.85;
-		} 
-		if (output2 >= 100 || output2 > output) {
+		} else if (output2 >= 100 || output2 > output) {
 			output2 = output + "*"
+		}
+		
+		let output3 = Math.exp(-9.805 - Math.log(banPrice) + (0.75 * Math.log(pendingPoints))).toFixed(2);
+		if(output3 < 9.85){
+			output3 = 9.85;
+		} else if(Math.log(pendingPoints)>13.2){
+			output3 = "???"
 		}
 		
 		document.getElementById("output").innerHTML = output + " BAN";
 		document.getElementById("output2").innerHTML = output2 + " BAN";
+		document.getElementById("output3").innerHTML = output3 + " BAN";
 	}
 	
 	</script>
