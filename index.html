@@ -63,7 +63,7 @@
 						<br>
 						<small>Floor Curve Estimate</small>
 					</h2>
-					<p align="center">>99.99% of all payouts are above this curve.</p>
+					<p align="center">>99% of all payouts are above this curve.</p>
 				</div>
 			</div>
 			<div class="row">
@@ -126,7 +126,7 @@ function updateValues(){
 		thirdCurveEstimate = 9.85;
 	}
 	
-	let floorOutput = Math.exp(-9.805 - Math.log(banPrice) + (0.75 * Math.log(pendingPoints))).toFixed(2);
+	let floorOutput = Math.exp(-10.499 + Math.log(banPrice) + (17.6 * Math.log(Math.log(Math.log(pendingPoints))))).toFixed(2);
 	
 	document.getElementById("thirdEstimateOutput").innerHTML = thirdCurveEstimate + " BAN";
 	document.getElementById("floorOutput").innerHTML = floorOutput + " BAN";
