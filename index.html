@@ -18,33 +18,28 @@
 
 	  gtag('config', 'G-FSYSR80F3P');
 	</script>
-<body>
+<body onload="createTable(infoTableArray)">
 
-<!-- Page Content -->
-	<div class="container-fluid stuff col-md-3"></div>
-		<div class="container-fluid stuff col-md-8">
+<div class="container">
+	<div class="row">
+		<div class="col-sm-8">
+			<h1>Banano Calculator<br>
+				<small>Because you asked for it.</small>
+			</h1>
 			<div class="row">
-				<div class="col-lg-8">
-					<h1>Banano Calculator<br>
-						<small>Because you asked for it.</small>
-					</h1>
-				</div>
-			</div>
-			<br>
-			<div class="row">
-				<div class="col-md-2">
+				<div class="col-sm-3">
 					<label class="col-2 col-form-label">Pending Points</label>
 						<div class="col-2">
 							<input class="form-control" type="number" min="0" step="1000" value="0" id="pendingpoints" oninput="updateValues()">
 						</div>
 					<br>
-					<label class="col-2 col-form-label">Ban Price (USD)</label>
+					<label class="col-2 col-form-label">Vertical Shift</label>
 						<div class="col-2">
 							<input class="form-control" type="number" min="0" step="0.0001" value="0.0367" id="banprice" oninput="updateValues()">
-							(Default is Price of 08 May 2021 - PM Payout)
+							(Defaulted to Latest Known Shift)
 						</div>
 				</div>
-				<div class="col-md-2">
+				<div class="col-sm-3">
 					<h2 align="center">
 						<span id="output">???</span>
 						<br>
@@ -52,7 +47,7 @@
 					</h2>
 					<p align="center">Roughly ~38% of all payouts lie on this curve.</p>
 				</div>
-				<div class="col-md-2">
+				<div class="col-sm-3">
 					<h2 align="center">
 						<span id="output2">???</span>
 						<br>
@@ -60,7 +55,7 @@
 					</h2>
 					<p align="center">An additional ~5% of all payouts lie on this curve.</p>
 				</div>
-				<div class="col-md-2">
+				<div class="col-sm-3">
 					<h2 align="center">
 						<span id="output3">???</span>
 						<br>
@@ -69,60 +64,92 @@
 					<p align="center">96% of all payouts lie above this curve. Not reliable past 540,000 points.</p>
 				</div>
 			</div>
-			<div class="col-md-8">
-			<br>
+			<div class="row">
 			Estimates are calculated to hopefully be within 1 BAN in either direction. If your payouts are not accurately depicted here despite a correct price value and correct point total, you are either "Off-Curve" or the payout equation has significantly changed. There is currently no way to reliably predict Off-Curve payouts.
 			</div>
 		</div>
+		<div class="col-sm-4">
+			<br>
+			<table class="table table-striped" >
+				<thead>
+				  <tr>
+					<th>Payout</th>
+					<th>Vertical Shift</th>
+				  </tr>
+				</thead>
+				<tbody id="infoTable">
+				</tbody>
+			</table>
+		</div>
+	</div>
 </div>
 
-	<script>
-	$(document).ready(function(){
-		$('[data-toggle="popover"]').popover(); 
-	});
+<script>
+$(document).ready(function(){
+	$('[data-toggle="popover"]').popover(); 
+});
+
+let pendingPointsElement = document.getElementById("pendingpoints");
+let banPriceElement = document.getElementById("banprice");
+let output = 0;
+
+function updateValues(){
+	pendingPoints = parseFloat(pendingPointsElement.value);
+	banPrice = parseFloat(banPriceElement.value);
 	
-	let pendingPointsElement = document.getElementById("pendingpoints");
-	let banPriceElement = document.getElementById("banprice");
-	let output = 0;
-	
-	function updateValues(){
-		pendingPoints = parseFloat(pendingPointsElement.value);
-		banPrice = parseFloat(banPriceElement.value);
-		
-		if (pendingPoints >= 300000) {
-			output = Math.exp(-5.0657 - Math.log(banPrice) + (0.4414 * Math.log(pendingPoints))).toFixed(2);
-		} else if (pendingPoints >= 150000) {
-			output = Math.exp(-6.0370 - Math.log(banPrice) + (0.5223 * Math.log(pendingPoints))).toFixed(2);
-		} else if (pendingPoints >= 30000) {
-			output = Math.exp(-7.3263 - Math.log(banPrice) + (0.6380 * Math.log(pendingPoints))).toFixed(2);
-		} else {
-			output = Math.exp(-9.5797 - Math.log(banPrice) + (0.8545 * Math.log(pendingPoints))).toFixed(2);
-		}
-		if (output < 9.85) {
-			output = 9.85
-		}
-		
-		let output2 = Math.exp(-19.045 - Math.log(banPrice) + (7.7 * Math.log(Math.log(pendingPoints)))).toFixed(2);
-		if(output2 < 9.85){
-			output2 = 9.85;
-		} else if (output2 >= 100 || output2 > output) {
-			output2 = output + "*"
-		}
-		
-		let output3 = Math.exp(-9.805 - Math.log(banPrice) + (0.75 * Math.log(pendingPoints))).toFixed(2);
-		if(output3 < 9.85){
-			output3 = 9.85;
-		} else if(Math.log(pendingPoints)>13.2){
-			output3 = "???"
-		}
-		
-		document.getElementById("output").innerHTML = output + " BAN";
-		document.getElementById("output2").innerHTML = output2 + " BAN";
-		document.getElementById("output3").innerHTML = output3 + " BAN";
+	if (pendingPoints >= 300000) {
+		output = Math.exp(-5.0657 - Math.log(banPrice) + (0.4414 * Math.log(pendingPoints))).toFixed(2);
+	} else if (pendingPoints >= 150000) {
+		output = Math.exp(-6.0370 - Math.log(banPrice) + (0.5223 * Math.log(pendingPoints))).toFixed(2);
+	} else if (pendingPoints >= 30000) {
+		output = Math.exp(-7.3263 - Math.log(banPrice) + (0.6380 * Math.log(pendingPoints))).toFixed(2);
+	} else {
+		output = Math.exp(-9.5797 - Math.log(banPrice) + (0.8545 * Math.log(pendingPoints))).toFixed(2);
+	}
+	if (output < 9.85) {
+		output = 9.85
 	}
 	
-	</script>
+	let output2 = Math.exp(-19.045 - Math.log(banPrice) + (7.7 * Math.log(Math.log(pendingPoints)))).toFixed(2);
+	if(output2 < 9.85){
+		output2 = 9.85;
+	} else if (output2 >= 100 || output2 > output) {
+		output2 = output + "*"
+	}
+	
+	let output3 = Math.exp(-9.805 - Math.log(banPrice) + (0.75 * Math.log(pendingPoints))).toFixed(2);
+	if(output3 < 9.85){
+		output3 = 9.85;
+	} else if(Math.log(pendingPoints)>13.2){
+		output3 = "???"
+	}
+	
+	document.getElementById("output").innerHTML = output + " BAN";
+	document.getElementById("output2").innerHTML = output2 + " BAN";
+	document.getElementById("output3").innerHTML = output3 + " BAN";
+}
 
-	<script type="text/javascript" src="main.js"></script>	
+let infoTableArray = [
+	['Payout','Vertical Shift'],
+	['09-May-2021 AM', 'Delinquent'],
+	['08-May-2021 AM/PM', 0.036700],
+	['07-May-2021 AM/PM', 0.030337]
+]
+
+//makes an HTML table from the array
+	function createTable(array) {
+		for(var i = 1; i < array.length ; i++){
+			var row = document.createElement('tr');
+			row.setAttribute("id", "myTr" + i);
+			document.getElementById("infoTable").appendChild(row);
+			for(var j = 0; j < 2; j++){
+				var cell = document.createElement('td');
+				var content = document.createTextNode(array[i][j]);
+				cell.appendChild(content);
+				document.getElementById("myTr" + i).appendChild(cell);
+			};
+		};
+	};
+</script>
 </body>
 </html>
