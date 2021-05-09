@@ -27,7 +27,7 @@
 				<small>Because you asked for it.</small>
 			</h1>
 			<div class="row">
-				<div class="col-sm-3">
+				<div class="col-sm-4">
 					<label class="col-2 col-form-label">Pending Points</label>
 						<div class="col-2">
 							<input class="form-control" type="number" min="0" step="1000" value="0" id="pendingpoints" oninput="updateValues()">
@@ -35,10 +35,11 @@
 					<br>
 					<label class="col-2 col-form-label">Vertical Shift</label>
 						<div class="col-2">
-							<input class="form-control" type="number" min="0" step="0.0001" value="0.0367" id="banprice" oninput="updateValues()">
+							<input class="form-control" type="number" min="0" step="0.00001" value="0.03685" id="banprice" oninput="updateValues()">
 							(Defaulted to Latest Known Shift)
 						</div>
 				</div>
+				<!--
 				<div class="col-sm-3">
 					<h2 align="center">
 						<span id="output">???</span>
@@ -47,24 +48,26 @@
 					</h2>
 					<p align="center">Roughly ~38% of all payouts lie on this curve.</p>
 				</div>
-				<div class="col-sm-3">
+				-->
+				<div class="col-sm-4">
 					<h2 align="center">
-						<span id="output2">???</span>
+						<span id="thirdEstimateOutput">???</span>
 						<br>
-						<small>Nerfed Curve Estimate</small>
+						<small>Main Curve Estimate</small>
 					</h2>
-					<p align="center">An additional ~5% of all payouts lie on this curve.</p>
+					<p align="center">~63% of all payouts lie on this curve.</p>
 				</div>
-				<div class="col-sm-3">
+				<div class="col-sm-4">
 					<h2 align="center">
-						<span id="output3">???</span>
+						<span id="floorOutput">???</span>
 						<br>
 						<small>Floor Curve Estimate</small>
 					</h2>
-					<p align="center">96% of all payouts lie above this curve. Not reliable past 540,000 points.</p>
+					<p align="center">>99.99% of all payouts are above this curve.</p>
 				</div>
 			</div>
 			<div class="row">
+			<br>
 			Estimates are calculated to hopefully be within 1 BAN in either direction. If your payouts are not accurately depicted here despite a correct price value and correct point total, you are either "Off-Curve" or the payout equation has significantly changed. There is currently no way to reliably predict Off-Curve payouts.
 			</div>
 		</div>
@@ -74,7 +77,8 @@
 				<thead>
 				  <tr>
 					<th>Payout</th>
-					<th>Vertical Shift</th>
+					<th>Shift</th>
+					<th>Success%</th>
 				  </tr>
 				</thead>
 				<tbody id="infoTable">
@@ -91,12 +95,11 @@ $(document).ready(function(){
 
 let pendingPointsElement = document.getElementById("pendingpoints");
 let banPriceElement = document.getElementById("banprice");
-let output = 0;
 
 function updateValues(){
 	pendingPoints = parseFloat(pendingPointsElement.value);
 	banPrice = parseFloat(banPriceElement.value);
-	
+	/*
 	if (pendingPoints >= 300000) {
 		output = Math.exp(-5.0657 - Math.log(banPrice) + (0.4414 * Math.log(pendingPoints))).toFixed(2);
 	} else if (pendingPoints >= 150000) {
@@ -116,24 +119,27 @@ function updateValues(){
 	} else if (output2 >= 100 || output2 > output) {
 		output2 = output + "*"
 	}
+	*/
 	
-	let output3 = Math.exp(-9.805 - Math.log(banPrice) + (0.75 * Math.log(pendingPoints))).toFixed(2);
-	if(output3 < 9.85){
-		output3 = 9.85;
-	} else if(Math.log(pendingPoints)>13.2){
-		output3 = "???"
+	let thirdCurveEstimate = Math.exp(-9.295 + Math.log(banPrice) + (17.6 * Math.log(Math.log(Math.log(pendingPoints))))).toFixed(2);
+	if(thirdCurveEstimate < 9.85){
+		thirdCurveEstimate = 9.85;
 	}
 	
-	document.getElementById("output").innerHTML = output + " BAN";
-	document.getElementById("output2").innerHTML = output2 + " BAN";
-	document.getElementById("output3").innerHTML = output3 + " BAN";
+	let floorOutput = Math.exp(-9.805 - Math.log(banPrice) + (0.75 * Math.log(pendingPoints))).toFixed(2);
+	
+	document.getElementById("thirdEstimateOutput").innerHTML = thirdCurveEstimate + " BAN";
+	document.getElementById("floorOutput").innerHTML = floorOutput + " BAN";
 }
 
 let infoTableArray = [
-	['Payout','Vertical Shift'],
-	['09-May-2021 AM', 'Delinquent'],
+	['Payout','Vertical Shift', 'Success Rate'],
+	['09-May-2021 PM', 0.03685, '62.86%']
+	/*
+	['09-May-2021 AM', 'None/TBD'],
 	['08-May-2021 AM/PM', 0.036700],
 	['07-May-2021 AM/PM', 0.030337]
+	*/
 ]
 
 //makes an HTML table from the array
@@ -142,7 +148,7 @@ let infoTableArray = [
 			var row = document.createElement('tr');
 			row.setAttribute("id", "myTr" + i);
 			document.getElementById("infoTable").appendChild(row);
-			for(var j = 0; j < 2; j++){
+			for(var j = 0; j < array[i].length; j++){
 				var cell = document.createElement('td');
 				var content = document.createTextNode(array[i][j]);
 				cell.appendChild(content);
