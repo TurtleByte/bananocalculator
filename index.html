@@ -55,7 +55,7 @@
 						<br>
 						<small>Main Curve Estimate</small>
 					</h2>
-					<p align="center">~63% of all payouts lie on this curve.</p>
+					<p align="center">~71% of all payouts lie on this curve.</p>
 				</div>
 				<div class="col-sm-4">
 					<h2 align="center">
@@ -121,6 +121,10 @@ function updateValues(){
 	}
 	*/
 	
+	if(pendingPoints > 740000){
+		let thirdCurveEstimate = (1/(-0.05655 + (0.9598 * (1/Math.log(pendingPoints))))) - 3.3009 - Math.log(banPrice)
+	}
+	
 	let thirdCurveEstimate = Math.exp(-9.295 + Math.log(banPrice) + (17.6 * Math.log(Math.log(Math.log(pendingPoints))))).toFixed(2);
 	if(thirdCurveEstimate < 9.85){
 		thirdCurveEstimate = 9.85;
@@ -133,8 +137,8 @@ function updateValues(){
 }
 
 let infoTableArray = [
-	['Payout','Vertical Shift', 'Success Rate'],
-	['09-May-2021 PM', 0.03685, '62.86%']
+	['Payout','Vertical Shift', 'Price'],
+	['09-May-2021 PM', 0.03685, '$0.045682']
 	/*
 	['09-May-2021 AM', 'None/TBD'],
 	['08-May-2021 AM/PM', 0.036700],
