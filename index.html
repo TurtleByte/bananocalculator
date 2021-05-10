@@ -27,7 +27,7 @@
 				<small>Because you asked for it.</small>
 			</h1>
 			<div class="row">
-				<div class="col-sm-4">
+				<div class="col-sm-3">
 					<label class="col-2 col-form-label">Pending Points</label>
 						<div class="col-2">
 							<input class="form-control" type="number" min="0" step="1000" value="0" id="pendingpoints" oninput="updateValues()">
@@ -35,29 +35,27 @@
 					<br>
 					<label class="col-2 col-form-label">Vertical Shift</label>
 						<div class="col-2">
-							<input class="form-control" type="number" min="0" step="0.00001" value="0.03685" id="banprice" oninput="updateValues()">
+							<input class="form-control" type="number" min="0" step="0.0001" value="0.0367" id="banprice" oninput="updateValues()">
 							(Defaulted to Latest Known Shift)
 						</div>
 				</div>
-				<!--
 				<div class="col-sm-3">
 					<h2 align="center">
 						<span id="output">???</span>
 						<br>
 						<small>Main Curve Estimate</small>
 					</h2>
-					<p align="center">Roughly ~38% of all payouts lie on this curve.</p>
+					<p align="center">Roughly ~43% of all payouts are ±1 BAN on this estimate.</p>
 				</div>
-				-->
-				<div class="col-sm-4">
+				<div class="col-sm-3">
 					<h2 align="center">
-						<span id="thirdEstimateOutput">???</span>
+						<span id="output2">???</span>
 						<br>
-						<small>Main Curve Estimate</small>
+						<small>Nerfed Curve Estimate</small>
 					</h2>
-					<p align="center">~71% of all payouts lie on this curve.</p>
+					<p align="center">An additional ~6% of all payouts are ±1 BAN on this estimate. This estimate is for those not on the Main Curve.</p>
 				</div>
-				<div class="col-sm-4">
+				<div class="col-sm-3">
 					<h2 align="center">
 						<span id="floorOutput">???</span>
 						<br>
@@ -68,7 +66,7 @@
 			</div>
 			<div class="row">
 			<br>
-			Estimates are calculated to hopefully be within 1 BAN in either direction. If your payouts are not accurately depicted here despite a correct price value and correct point total, you are either "Off-Curve" or the payout equation has significantly changed. There is currently no way to reliably predict Off-Curve payouts.
+			If your payouts are not accurately depicted here, you are either "Off-Curve" or the payout equation has significantly changed. There is currently no way to reliably predict Off-Curve payouts.
 			</div>
 		</div>
 		<div class="col-sm-4">
@@ -77,8 +75,8 @@
 				<thead>
 				  <tr>
 					<th>Payout</th>
-					<th>Shift</th>
-					<th>Success%</th>
+					<th>Folders</th>
+					<th>Ban Distributed</th>
 				  </tr>
 				</thead>
 				<tbody id="infoTable">
@@ -99,8 +97,10 @@ let banPriceElement = document.getElementById("banprice");
 function updateValues(){
 	pendingPoints = parseFloat(pendingPointsElement.value);
 	banPrice = parseFloat(banPriceElement.value);
-	/*
-	if (pendingPoints >= 300000) {
+	
+	if(pendingPoints > 740000){
+		output = ((1/(-0.05655 + (0.9598 * (1/Math.log(pendingPoints))))) - 3.3009 - Math.log(banPrice)).toFixed(2);
+	} else if (pendingPoints >= 300000) {
 		output = Math.exp(-5.0657 - Math.log(banPrice) + (0.4414 * Math.log(pendingPoints))).toFixed(2);
 	} else if (pendingPoints >= 150000) {
 		output = Math.exp(-6.0370 - Math.log(banPrice) + (0.5223 * Math.log(pendingPoints))).toFixed(2);
@@ -113,32 +113,24 @@ function updateValues(){
 		output = 9.85
 	}
 	
-	let output2 = Math.exp(-19.045 - Math.log(banPrice) + (7.7 * Math.log(Math.log(pendingPoints)))).toFixed(2);
+	let output2 = Math.exp(-15.8968 - Math.log(banPrice) + (17.6 * Math.log(Math.log(Math.log(pendingPoints))))).toFixed(2);
 	if(output2 < 9.85){
 		output2 = 9.85;
-	} else if (output2 >= 100 || output2 > output) {
-		output2 = output + "*"
-	}
-	*/
-	
-	if(pendingPoints > 740000){
-		let thirdCurveEstimate = (1/(-0.05655 + (0.9598 * (1/Math.log(pendingPoints))))) - 3.3009 - Math.log(banPrice)
-	}
-	
-	let thirdCurveEstimate = Math.exp(-9.295 + Math.log(banPrice) + (17.6 * Math.log(Math.log(Math.log(pendingPoints))))).toFixed(2);
-	if(thirdCurveEstimate < 9.85){
-		thirdCurveEstimate = 9.85;
+	} else if (output2 > output) {
+		output2 = output
 	}
 	
 	let floorOutput = Math.exp(-10.499 + Math.log(banPrice) + (17.6 * Math.log(Math.log(Math.log(pendingPoints))))).toFixed(2);
 	
-	document.getElementById("thirdEstimateOutput").innerHTML = thirdCurveEstimate + " BAN";
+	document.getElementById("output").innerHTML = output + " BAN";
+	document.getElementById("output2").innerHTML = output2 + " BAN";
 	document.getElementById("floorOutput").innerHTML = floorOutput + " BAN";
 }
 
 let infoTableArray = [
-	['Payout','Vertical Shift', 'Price'],
-	['09-May-2021 PM', 0.03685, '$0.045682']
+	['Payout','Folders', 'BAN Distributed'],
+	['10-May-2021 AM', 7876, 238908.12],
+	['09-May-2021 PM', 8904, 322268.32]
 	/*
 	['09-May-2021 AM', 'None/TBD'],
 	['08-May-2021 AM/PM', 0.036700],
