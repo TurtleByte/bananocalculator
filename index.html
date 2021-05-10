@@ -45,7 +45,7 @@
 						<br>
 						<small>Main Curve Estimate</small>
 					</h2>
-					<p align="center">Roughly ~43% of all payouts are ±1 BAN on this estimate.</p>
+					<p align="center">Roughly ~43% of all payouts are ±1 BAN on this estimate. ~65% are ±1.5 BAN.</p>
 				</div>
 				<div class="col-sm-3">
 					<h2 align="center">
@@ -53,7 +53,7 @@
 						<br>
 						<small>Nerfed Curve Estimate</small>
 					</h2>
-					<p align="center">An additional ~6% of all payouts are ±1 BAN on this estimate. This estimate is for those not on the Main Curve.</p>
+					<p align="center">An additional ~6% of all payouts are ±1 BAN on this estimate. </p>
 				</div>
 				<div class="col-sm-3">
 					<h2 align="center">
@@ -120,7 +120,7 @@ function updateValues(){
 		output2 = output
 	}
 	
-	let floorOutput = Math.exp(-10.499 + Math.log(banPrice) + (17.6 * Math.log(Math.log(Math.log(pendingPoints))))).toFixed(2);
+	let floorOutput = Math.exp(-10.24 + Math.log(banPrice) + (17.6 * Math.log(Math.log(Math.log(pendingPoints))))).toFixed(2);
 	
 	document.getElementById("output").innerHTML = output + " BAN";
 	document.getElementById("output2").innerHTML = output2 + " BAN";
