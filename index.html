@@ -35,7 +35,8 @@
 						</select>
 					</label>
 						<div class="col-2">
-							<input class="form-control" type="number" min="1" step="1000" value="0" id="pendingpoints" oninput="updateValues()">
+							<input class="form-control" type="number" min="0" step="1000" value="0" id="pendingpoints" oninput="updateValues()">
+							<span id="text">Estimates are for next payout.</span>
 						</div>
 					<br>
 					<label class="col-2 col-form-label">Vertical Shift</label>
@@ -81,7 +82,7 @@
 				  <tr>
 					<th>Payout</th>
 					<th>Folders</th>
-					<th>Ban Distributed</th>
+					<th>BAN Distributed</th>
 				  </tr>
 				</thead>
 				<tbody id="infoTable">
@@ -143,6 +144,12 @@ function updateValues(){
 	document.getElementById("output").innerHTML = output + " BAN";
 	document.getElementById("output2").innerHTML = output2 + " BAN";
 	document.getElementById("floorOutput").innerHTML = floorOutput + " BAN";
+	
+	if (pointsModeElement.value == "ppd") {
+		document.getElementById("text").innerHTML = "Estimates are in BAN per Day.";
+	} else {
+		document.getElementById("text").innerHTML = "Estimates are for next payout.";
+	}
 }
 
 let infoTableArray = [
