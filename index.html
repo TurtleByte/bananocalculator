@@ -28,7 +28,12 @@
 			</h1>
 			<div class="row">
 				<div class="col-sm-3">
-					<label class="col-2 col-form-label">Pending Points</label>
+					<label class="col-2 col-form-label">
+						<select id="pointsMode" class="form-control" oninput="updateValues()">
+							<option value="pp">Pending Points</option>
+							<option value="ppd">Points Per Day</option>
+						</select>
+					</label>
 						<div class="col-2">
 							<input class="form-control" type="number" min="0" step="1000" value="0" id="pendingpoints" oninput="updateValues()">
 						</div>
@@ -93,9 +98,16 @@ $(document).ready(function(){
 
 let pendingPointsElement = document.getElementById("pendingpoints");
 let banPriceElement = document.getElementById("banprice");
+let pointsModeElement = document.getElementById("pointsMode");
 
 function updateValues(){
-	pendingPoints = parseFloat(pendingPointsElement.value);
+	if (pointsModeElement.value == "pp") {
+		pendingPoints = parseFloat(pendingPointsElement.value);
+	} else if (pointsModeElement.value == "ppd") {
+		pendingPoints = parseFloat(pendingPointsElement.value) / 2;
+	};
+	
+	console.log(pendingPoints)
 	banPrice = parseFloat(banPriceElement.value);
 	
 	if(pendingPoints > 740000){
@@ -121,6 +133,12 @@ function updateValues(){
 	}
 	
 	let floorOutput = Math.exp(-10.24 + Math.log(banPrice) + (17.6 * Math.log(Math.log(Math.log(pendingPoints))))).toFixed(2);
+	
+	if (pointsModeElement.value == "ppd") {
+		output = output * 2;
+		output2 = output2 * 2;
+		floorOutput = floorOutput * 2;
+	}
 	
 	document.getElementById("output").innerHTML = output + " BAN";
 	document.getElementById("output2").innerHTML = output2 + " BAN";
