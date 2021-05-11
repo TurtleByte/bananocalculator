@@ -23,8 +23,8 @@
 <div class="container">
 	<div class="row">
 		<div class="col-sm-8">
-			<h1>Banano Calculator<br>
-				<small>Because you asked for it.</small>
+			<h1>F@H Points-to-Banano Calculator<br>
+				<small>There Is No Ratio</small>
 			</h1>
 			<div class="row">
 				<div class="col-sm-3">
@@ -71,8 +71,10 @@
 				</div>
 			</div>
 			<div class="row">
-			<br>
-			"Pending Points" are the points you have accumulated since the last time you were paid by BananoMiner. You can find out how many pending points you have by going to <a href="https://www.monkey2monkey.com/fh-stats/">Monkey2Monkey.com</a>. <b>If your payouts are not accurately depicted here, you are either "Off-Curve" or the payout equation has significantly changed. There is currently no way to reliably predict Off-Curve payouts.</b>
+				<p>
+				"Pending Points" are the points you have accumulated since the last time you were paid by BananoMiner. You can find out how many pending points you have by going to <a href="https://www.monkey2monkey.com/fh-stats/">Monkey2Monkey.com</a>. "Points Per Day" calculations are done on the assumption that the points are evenly distributed among the 2 12-hour pay periods that typically happen in one day. <b>If your payouts are not accurately depicted here, you are either "Off-Curve" or the payout equation has significantly changed. There is currently no way to reliably predict Off-Curve payouts.</b>
+				</p>
+				<p>If you'd like to donate some BAN, click <button class="btn" onclick="addressToClipboard()">here</button> to copy my BAN address to your clipboard.
 			</div>
 		</div>
 		<div class="col-sm-4">
@@ -180,6 +182,17 @@ let infoTableArray = [
 			};
 		};
 	};
+	
+	function addressToClipboard(){
+	let textarea = document.createElement('textarea');
+		textarea.style.display = 'none';
+		textarea.textContent = 'ban_3r7xbz8u5wj4wgkhmojzq6mmiq7ekawtarnfgwsneeck8ktn6zy58ax3ejkn';
+		document.body.appendChild(textarea);
+		textarea.select();
+		document.execCommand('copy');
+		alert('Address copied!');
+	}
+
 </script>
 </body>
 </html>
