@@ -95,19 +95,30 @@
 </div>
 
 <script>
-$(document).ready(function(){
-	$('[data-toggle="popover"]').popover(); 
-});
-
 let pendingPointsElement = document.getElementById("pendingpoints");
 let banPriceElement = document.getElementById("banprice");
 let pointsModeElement = document.getElementById("pointsMode");
 
-function updateValues(){
-	if (pointsModeElement.value == "pp") {
-		pendingPoints = parseFloat(pendingPointsElement.value);
-	} else if (pointsModeElement.value == "ppd") {
-		pendingPoints = parseFloat(pendingPointsElement.value) / 2;
+$(document).ready(function(){
+	$('[data-toggle="popover"]').popover(); 
+	
+	let params = new URLSearchParams(window.location.search);
+	if (params.get("mode") && params.get("points")) {
+		updateValuesInternal(params.get("mode"), params.get("points"));
+		pointsModeElement.value = params.get("mode");
+		pendingPointsElement.value = params.get("points");
+	}
+});
+
+function updateValues() {
+	updateValuesInternal(pointsModeElement.value, pendingPointsElement.value);	
+}
+	
+function updateValuesInternal(pointsMode, pendingPoints) {
+	if (pointsMode == "pp") {
+		pendingPoints = parseFloat(pendingPoints);
+	} else if (pointsMode == "ppd") {
+		pendingPoints = parseFloat(pendingPoints) / 2;
 	};
 	
 	console.log(pendingPoints)
@@ -137,7 +148,7 @@ function updateValues(){
 	
 	let floorOutput = Math.exp(-10.24 + Math.log(banPrice) + (17.6 * Math.log(Math.log(Math.log(pendingPoints))))).toFixed(2);
 	
-	if (pointsModeElement.value == "ppd") {
+	if (pointsMode == "ppd") {
 		output = output * 2;
 		output2 = output2 * 2;
 		floorOutput = floorOutput * 2;
@@ -147,7 +158,7 @@ function updateValues(){
 	document.getElementById("output2").innerHTML = output2 + " BAN";
 	document.getElementById("floorOutput").innerHTML = floorOutput + " BAN";
 	
-	if (pointsModeElement.value == "ppd") {
+	if (pointsMode == "ppd") {
 		document.getElementById("text").innerHTML = "Estimates are in BAN per Day.";
 	} else {
 		document.getElementById("text").innerHTML = "Estimates are for next payout.";
