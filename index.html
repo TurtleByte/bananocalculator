@@ -184,13 +184,7 @@ let infoTableArray = [
 	};
 	
 	function addressToClipboard(){
-	let textarea = document.createElement('textarea');
-		textarea.style.display = 'none';
-		textarea.textContent = 'ban_3r7xbz8u5wj4wgkhmojzq6mmiq7ekawtarnfgwsneeck8ktn6zy58ax3ejkn';
-		document.body.appendChild(textarea);
-		textarea.select();
-		document.execCommand('copy');
-		alert('Address copied!');
+		var promise = navigator.clipboard.writeText('ban_3r7xbz8u5wj4wgkhmojzq6mmiq7ekawtarnfgwsneeck8ktn6zy58ax3ejkn')
 	}
 
 </script>
