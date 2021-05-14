@@ -121,13 +121,18 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 		pendingPoints = parseFloat(pendingPoints) / 2;
 	};
 	
-	console.log(pendingPoints)
 	banPrice = parseFloat(banPriceElement.value);
 	
-	if(pendingPoints > 740000){
-		output = ((1/(-0.05655 + (0.9598 * (1/Math.log(pendingPoints))))) - 3.3009 - Math.log(banPrice)).toFixed(2);
+	if (pendingPoints > 65000000) {
+		output = '???';
+	} else if (pendingPoints > 10000000) {
+		// i literally dont know how shift will affect this so that's fun
+		output = ((((-3 * Math.pow(10, -14) * Math.pow(pendingPoints, 3)) + (3 * Math.pow(10, -6) * Math.pow(pendingPoints, 2)) + (-5 * pendingPoints))/1000000)+100).toFixed(2);
+	} else if(pendingPoints > 3000000){
+		// this one too
+		output = ((1/(-0.05655 + (0.9598 * (1/Math.log(pendingPoints))))) - 3.3009 - banPrice).toFixed(2);
 	} else if (pendingPoints >= 300000) {
-		output = Math.exp(-5.0657 - Math.log(banPrice) + (0.4414 * Math.log(pendingPoints))).toFixed(2);
+		output = Math.exp(-5.0610 - Math.log(banPrice) + (0.4414 * Math.log(pendingPoints))).toFixed(2);
 	} else if (pendingPoints >= 150000) {
 		output = Math.exp(-6.0370 - Math.log(banPrice) + (0.5223 * Math.log(pendingPoints))).toFixed(2);
 	} else if (pendingPoints >= 30000) {
@@ -142,8 +147,8 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 	let output2 = Math.exp(-15.8968 - Math.log(banPrice) + (17.6 * Math.log(Math.log(Math.log(pendingPoints))))).toFixed(2);
 	if(output2 < 9.85){
 		output2 = 9.85;
-	} else if (output2 > output) {
-		output2 = output
+	} else if (pendingPoints >= 300000){
+		output2 = 'N/A';
 	}
 	
 	let floorOutput = Math.exp(-10.24 + Math.log(banPrice) + (17.6 * Math.log(Math.log(Math.log(pendingPoints))))).toFixed(2);
@@ -152,6 +157,11 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 		output = output * 2;
 		output2 = output2 * 2;
 		floorOutput = floorOutput * 2;
+	}
+	
+	if (output == '???'){
+		output2 = output
+		floorOutput = output
 	}
 	
 	document.getElementById("output").innerHTML = output + " BAN";
@@ -167,6 +177,7 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 
 let infoTableArray = [
 	['Payout','Folders', 'BAN Distributed'],
+	['14-May-2021 AM', 8711, 264476.69],
 	['13-May-2021 PM', 7974, 243834.84],
 	['13-May-2021 AM', 8338, 257303.88],
 	['12-May-2021 PM', 7780, 237559.46],
