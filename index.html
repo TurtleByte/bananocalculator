@@ -91,7 +91,7 @@
 				<tbody id="infoTable">
 				</tbody>
 			</table>
-			* This may contain inaccuracies.
+			This table may contain inaccuracies.
 		</div>
 	</div>
 </div>
@@ -127,12 +127,11 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 	
 	if (pendingPoints > 65000000) {
 		output = '???';
-	} else if (pendingPoints > 10000000) {
+	} else if (pendingPoints > 11699000) {
 		// i literally dont know how shift will affect this so that's fun
 		output = ((((-3 * Math.pow(10, -14) * Math.pow(pendingPoints, 3)) + (3 * Math.pow(10, -6) * Math.pow(pendingPoints, 2)) + (-5 * pendingPoints))/1000000)+100).toFixed(2);
-	} else if(pendingPoints > 3000000){
-		// this one too
-		output = ((1/(-0.05655 + (0.9598 * (1/Math.log(pendingPoints))))) - 3.3009 - banPrice).toFixed(2);
+	} else if(pendingPoints > 3384708){ // intersection of this line to the line below
+		output = ((1/(-0.05655 + (0.9603 * (1/Math.log(pendingPoints))))) - 3.3009 - banPrice).toFixed(2);
 	} else if (pendingPoints >= 300000) {
 		output = Math.exp(-5.0610 - Math.log(banPrice) + (0.4414 * Math.log(pendingPoints))).toFixed(2);
 	} else if (pendingPoints >= 150000) {
@@ -179,7 +178,8 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 
 let infoTableArray = [
 	['Payout','Folders', 'BAN Distributed'],
-	['14-May-2021 PM', 8713, 265879.82],
+	['15-May-2021 PM', 8771, 258291.30],
+	['15-May-2021 AM', 8713, 265879.82], 
 	['14-May-2021 PM', 7245, 209728.77], 
 	['14-May-2021 AM', 8711, 264476.69], 
 	['13-May-2021 PM', 7974, 243834.84],
