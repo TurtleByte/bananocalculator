@@ -144,8 +144,8 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 	} else {
 		output = Math.exp(-9.5797 - Math.log(banPrice) + (0.8545 * Math.log(pendingPoints))).toFixed(2);
 	}
-	if (output < 9.85) {
-		output = 9.85
+	if (output == 0) {
+		output = 0
 	}
 	
 	let output2 = Math.exp(-15.8968 - Math.log(banPrice) + (17.6 * Math.log(Math.log(Math.log(pendingPoints))))).toFixed(2);
@@ -166,6 +166,12 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 	if (output == '???'){
 		output2 = output
 		floorOutput = output
+	}
+	
+	if(pendingPoints == 0){
+		output = 0;
+		output2 = 0;
+		floorOutput = 0;
 	}
 	
 	document.getElementById("output").innerHTML = output + " BAN";
