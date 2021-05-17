@@ -144,8 +144,8 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 	} else {
 		output = Math.exp(-9.5797 - Math.log(banPrice) + (0.8545 * Math.log(pendingPoints))).toFixed(2);
 	}
-	if (output == 0) {
-		output = 0
+	if (output < 9.85) {
+		output = 9.85
 	}
 	
 	let output2 = Math.exp(-15.8968 - Math.log(banPrice) + (17.6 * Math.log(Math.log(Math.log(pendingPoints))))).toFixed(2);
@@ -187,8 +187,9 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 
 let infoTableArray = [
 	['Payout','Folders', 'BAN Distributed'],
+	['16-May-2021 PM', 9269, 288783.53],
 	['16-May-2021 PM', 8329, 258893.26],
-	['16-May-2021 AM', 8803, 274622.74], 
+	['16-May-2021 AM', 8803, 274622.74],
 	['15-May-2021 PM', 8771, 258291.30],
 	['15-May-2021 AM', 8713, 265879.82],
 	['14-May-2021 PM', 7245, 209728.77],
