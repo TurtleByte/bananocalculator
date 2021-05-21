@@ -76,8 +76,8 @@
 					<li><b>If your payouts are not accurately depicted here, you are either "Off-Curve" or the payout equation has significantly changed. There is currently no way to reliably predict Off-Curve payouts.</b></li>
 					<li>"Pending Points" are the points you have accumulated since the last time you were paid by BananoMiner. You can find out how many pending points you have by going to <a href="https://www.monkey2monkey.com/fh-stats/">Monkey2Monkey.com</a>.</li> 
 					<li>"Points Per Day" calculations are done on the assumption that the points are evenly distributed among the 2 12-hour pay periods that typically happen in one day.</li>
-					<li>The table outlining the statistics of recent payouts may contain inaccuracies.</li>
-					
+					<li>The table outlining the statistics of recent payouts may contain inaccuracies. Its oldest entry is the first payout after the latest failed payout.</li>
+					<li>Rewards are only loosely based on the price of BAN, the formula itself does not take the price into account. Instead, the payouts are manually adjusted by BananoMiner.com. It seems to be the case that the higher the peak price of BAN, the lower the payouts globally. There is as yet no evidence to suggest that this works in reverse.</li>
 				</ul>	
 				<p>If you'd like to donate some BAN, click <button class="btn" onclick="addressToClipboard()">here</button> to copy my BAN address to your clipboard.
 			</div>
@@ -187,7 +187,9 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 
 let infoTableArray = [
 	['Payout','Folders', 'BAN Distributed'],
-	['20-May-2021 PM', 9689, 315439.54],
+	['21-May-2021 PM', 10109, 322964.56],
+	['21-May-2021 AM', 10312, 328833.78], 
+	['20-May-2021 PM', 9689, 315439.54], 
 	['20-May-2021 AM', 9825, 312812.64], 
 	['19-May-2021 PM', 9287, 295443.88],
 	['19-May-2021 AM', 9945, 307127.32], 
