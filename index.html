@@ -36,7 +36,7 @@
 					</label>
 						<div class="col-2">
 							<input class="form-control" type="number" min="0" step="1000" value="0" id="pendingpoints" oninput="updateValues()">
-							<span id="text">Estimates are for next payout.</span>
+							<span id="text">Estimates are in BAN per Day.</span>
 						</div>
 				</div>
 				<div class="col-sm-6">
@@ -61,9 +61,9 @@
 				<ul>
 					<li><b>If your payouts are not accurately depicted here, you are "Penalized" or the payout equation has significantly changed. There is currently no way to reliably predict Penalized payouts.</b> Off-Curve payouts account for roughly a quarter of all payouts.</li>
 					<li>"Pending Points" are the points you have accumulated since the last time you were paid by BananoMiner. You can find out how many pending points you have by going to <a href="https://www.monkey2monkey.com/fh-stats/">Monkey2Monkey.com</a>.</li>
-					<li>"Points Per Day" calculations are done on the assumption that the points are evenly distributed among the 2 12-hour pay periods that typically happen in one day.</li>
+					<li>"Points Per Day" calculations are done on the assumption that the points are evenly distributed among the 2, 12-hour pay periods that typically happen in one day.</li>
 					<li>The table outlining the statistics of recent payouts may contain inaccuracies. Its oldest entry is the first payout after the latest failed payout.</li>
-					<li>The Main Estimate Range is a range that represents a 3% error of an Estimate Value.</li>
+					<li>The Main Estimate Range is a range that represents a 3% error of the Estimate Value or 6 BAN, whichever is less.</li>
 					<li>Rewards are only loosely based on the price of BAN, the formula itself does not take the price into account. Instead, the payouts are manually adjusted by BananoMiner.com. It seems to be the case that the higher the peak price of BAN, the lower the payouts globally. There is as yet no evidence to suggest that this works in reverse.</li>
 				</ul>	
 				<p>If you'd like to donate some BAN, click <button class="btn" onclick="addressToClipboard()">here</button> to copy my BAN address to your clipboard.
@@ -143,24 +143,25 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 	}
 	
 	let floorOutput = Math.exp(-10.24 + Math.log(banPrice) + (17.6 * Math.log(Math.log(Math.log(pendingPoints))))).toFixed(2);
+	let offset = Math.min(0.03 * output, 6);
+	
+	
+	lowerBound = (output - offset).toFixed(2);
+	upperBound = (parseFloat(output) + offset).toFixed(2);
 	
 	if (pointsMode == "ppd") {
-		output = output * 2;
-		output2 = output2 * 2;
+		lowerBound = Math.max(lowerBound * 2, 0);
+		upperBound = upperBound * 2;
 		floorOutput = floorOutput * 2;
 	}
 	
-	lowerBound = (output - (0.03 * output)).toFixed(2);
-	upperBound = (parseFloat(output) + (0.03 * parseFloat(output))).toFixed(2);
-	
 	if (output == '???'){
-		output2 = output
 		floorOutput = output
 	}
 	
 	if(pendingPoints == 0){
-		output = 0;
-		output2 = 0;
+		lowerBound = 0;
+		upperBound = 0;
 		floorOutput = 0;
 	}
 	
