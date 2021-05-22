@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
-	<title>Banano Calculator</title>
-	<meta name="description" content="There is no conversion rate. This is how many Banano you'll get for your points. Stop asking. This is it. Just put in the numbers and you'll get your answer. Bookmark this so you'll never have to look for it again." />
+	<title>F@H Points-to-Banano Calculator</title>
+	<meta name="description" content="There is no conversion rate. There is no ratio. This is how many Banano you'll get for your points. Stop asking. This is it. Bookmark this so you'll never have to look for it again." />
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
@@ -30,53 +30,40 @@
 				<div class="col-sm-3">
 					<label class="col-2 col-form-label">
 						<select id="pointsMode" class="form-control" oninput="updateValues()">
-							<option value="pp">Pending Points</option>
 							<option value="ppd">Points Per Day</option>
+							<option value="pp">Pending Points</option>
 						</select>
 					</label>
 						<div class="col-2">
 							<input class="form-control" type="number" min="0" step="1000" value="0" id="pendingpoints" oninput="updateValues()">
 							<span id="text">Estimates are for next payout.</span>
 						</div>
-					<br>
-					<label class="col-2 col-form-label">Vertical Shift</label>
-						<div class="col-2">
-							<input class="form-control" type="number" min="0" step="0.0001" value="0.0361" id="banprice" oninput="updateValues()">
-							(Defaulted to Latest Known Shift)
-						</div>
 				</div>
-				<div class="col-sm-3">
+				<div class="col-sm-6">
 					<h2 align="center">
 						<span id="output">???</span>
 						<br>
-						<small>Main Curve Estimate</small>
+						<small>Main Estimate Range</small>
 					</h2>
-					<p align="center">Roughly ~43% of all payouts are ±1 BAN on this estimate. ~65% are ±1.5 BAN.</p>
-				</div>
-				<div class="col-sm-3">
-					<h2 align="center">
-						<span id="output2">???</span>
-						<br>
-						<small>Nerfed Curve Estimate</small>
-					</h2>
-					<p align="center">An additional ~6% of all payouts are ±1 BAN on this estimate. This curve eventually converges with the Main Curve.</p>
+					<p align="center">This range covers roughly 74% of all payouts.</p>
 				</div>
 				<div class="col-sm-3">
 					<h2 align="center">
 						<span id="floorOutput">???</span>
 						<br>
-						<small>Floor Curve Estimate</small>
+						<small>Floor Estimate</small>
 					</h2>
-					<p align="center">>99% of all payouts are above this curve.</p>
+					<p align="center">~99% of all payouts are above this estimate.</p>
 				</div>
 			</div>
 			<div class="row">
 				<h2><small>Things To Know</small></h2>
 				<ul>
-					<li><b>If your payouts are not accurately depicted here, you are either "Off-Curve" or the payout equation has significantly changed. There is currently no way to reliably predict Off-Curve payouts.</b></li>
-					<li>"Pending Points" are the points you have accumulated since the last time you were paid by BananoMiner. You can find out how many pending points you have by going to <a href="https://www.monkey2monkey.com/fh-stats/">Monkey2Monkey.com</a>.</li> 
+					<li><b>If your payouts are not accurately depicted here, you are "Penalized" or the payout equation has significantly changed. There is currently no way to reliably predict Penalized payouts.</b> Off-Curve payouts account for roughly a quarter of all payouts.</li>
+					<li>"Pending Points" are the points you have accumulated since the last time you were paid by BananoMiner. You can find out how many pending points you have by going to <a href="https://www.monkey2monkey.com/fh-stats/">Monkey2Monkey.com</a>.</li>
 					<li>"Points Per Day" calculations are done on the assumption that the points are evenly distributed among the 2 12-hour pay periods that typically happen in one day.</li>
 					<li>The table outlining the statistics of recent payouts may contain inaccuracies. Its oldest entry is the first payout after the latest failed payout.</li>
+					<li>The Main Estimate Range is a range that represents a 3% error of an Estimate Value.</li>
 					<li>Rewards are only loosely based on the price of BAN, the formula itself does not take the price into account. Instead, the payouts are manually adjusted by BananoMiner.com. It seems to be the case that the higher the peak price of BAN, the lower the payouts globally. There is as yet no evidence to suggest that this works in reverse.</li>
 				</ul>	
 				<p>If you'd like to donate some BAN, click <button class="btn" onclick="addressToClipboard()">here</button> to copy my BAN address to your clipboard.
@@ -126,7 +113,7 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 		pendingPoints = parseFloat(pendingPoints) / 2;
 	};
 	
-	banPrice = parseFloat(banPriceElement.value);
+	banPrice = 0.0361;
 	
 	if (pendingPoints > 42449000) {
 		output = (161.1375 + (0.0000693035 * pendingPoints)).toFixed(2);
@@ -163,6 +150,9 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 		floorOutput = floorOutput * 2;
 	}
 	
+	lowerBound = (output - (0.03 * output)).toFixed(2);
+	upperBound = (parseFloat(output) + (0.03 * parseFloat(output))).toFixed(2);
+	
 	if (output == '???'){
 		output2 = output
 		floorOutput = output
@@ -174,8 +164,8 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 		floorOutput = 0;
 	}
 	
-	document.getElementById("output").innerHTML = output + " BAN";
-	document.getElementById("output2").innerHTML = output2 + " BAN";
+	document.getElementById("output").innerHTML = lowerBound + " - " + upperBound + " BAN";
+	// document.getElementById("output2").innerHTML = output2 + " BAN";
 	document.getElementById("floorOutput").innerHTML = floorOutput + " BAN";
 	
 	if (pointsMode == "ppd") {
@@ -187,7 +177,8 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 
 let infoTableArray = [
 	['Payout','Folders', 'BAN Distributed'],
-	['21-May-2021 PM', 10109, 322964.56],
+	['22-May-2021 AM', 9974, 311228.99],
+	['21-May-2021 PM', 10109, 322964.56], 
 	['21-May-2021 AM', 10312, 328833.78], 
 	['20-May-2021 PM', 9689, 315439.54], 
 	['20-May-2021 AM', 9825, 312812.64], 
