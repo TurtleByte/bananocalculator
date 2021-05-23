@@ -20,7 +20,7 @@
 	</script>
 <body onload="createTable(infoTableArray)">
 
-<div class="container">
+<div class="container-fluid" style="width:90%;">
 	<div class="row">
 		<div class="col-sm-8">
 			<h1>F@H Points-to-Banano Calculator<br>
@@ -59,19 +59,19 @@
 			<div class="row">
 				<h2><small>Things To Know</small></h2>
 				<ul>
-					<li><b>If your payouts are not accurately depicted here, you are "Penalized" or the payout equation has significantly changed. There is currently no way to reliably predict Penalized payouts.</b> Off-Curve payouts account for roughly a quarter of all payouts.</li>
+					<li><b>If your payouts are not accurately depicted here, you are "Penalized" or the payout equation has significantly changed. There is currently no way to reliably predict Penalized payouts but they account for a quarter of all payouts.</b> It is unknown what causes an address to be Penalized. As such, it is also unknown how to remove this penalty.</li>
 					<li>"Pending Points" are the points you have accumulated since the last time you were paid by BananoMiner. You can find out how many pending points you have by going to <a href="https://www.monkey2monkey.com/fh-stats/">Monkey2Monkey.com</a> or <a href="https://www.nanners.cc/">Nanners.cc</a>.</li>
 					<li>"Points Per Day" calculations are done on the assumption that the points are evenly distributed among the 2, 12-hour pay periods that typically happen in one day.</li>
-					<li>The table outlining the statistics of recent payouts may contain inaccuracies. Its oldest entry is the first payout after the latest failed payout.</li>
+					<li>The table outlining the statistics of recent payouts may contain inaccuracies.</li>
 					<li>The Main Estimate Range is a range that represents a 3% error of the Estimate Value or 6 BAN, whichever is less.</li>
 					<li>Rewards are only loosely based on the price of BAN, the formula itself does not take the price into account. Instead, the payouts are manually adjusted by BananoMiner.com. It seems to be the case that the higher the peak price of BAN, the lower the payouts globally. There is as yet no evidence to suggest that this works in reverse.</li>
 				</ul>	
 				<p>If you'd like to donate some BAN, click <button class="btn" onclick="addressToClipboard()">here</button> to copy my BAN address to your clipboard.
 			</div>
 		</div>
-		<div class="col-sm-4">
+		<div class="col-sm-4" style="height:100%; overflow-y:scroll;">
 			<br>
-			<table class="table table-striped" >
+			<table class="table table-striped">
 				<thead>
 				  <tr>
 					<th>Payout</th>
