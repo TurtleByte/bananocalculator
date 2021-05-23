@@ -36,7 +36,7 @@
 					</label>
 						<div class="col-2">
 							<input class="form-control" type="number" min="0" step="1000" value="0" id="pendingpoints" oninput="updateValues()">
-							<span id="text">Estimates are in BAN per Day.</span>
+							<b><span id="text">Estimates are in BAN per Day.</span></b>
 						</div>
 				</div>
 				<div class="col-sm-6">
@@ -60,7 +60,7 @@
 				<h2><small>Things To Know</small></h2>
 				<ul>
 					<li><b>If your payouts are not accurately depicted here, you are "Penalized" or the payout equation has significantly changed. There is currently no way to reliably predict Penalized payouts.</b> Off-Curve payouts account for roughly a quarter of all payouts.</li>
-					<li>"Pending Points" are the points you have accumulated since the last time you were paid by BananoMiner. You can find out how many pending points you have by going to <a href="https://www.monkey2monkey.com/fh-stats/">Monkey2Monkey.com</a>.</li>
+					<li>"Pending Points" are the points you have accumulated since the last time you were paid by BananoMiner. You can find out how many pending points you have by going to <a href="https://www.monkey2monkey.com/fh-stats/">Monkey2Monkey.com</a> or <a href="https://www.nanners.cc/">Nanners.cc</a>.</li>
 					<li>"Points Per Day" calculations are done on the assumption that the points are evenly distributed among the 2, 12-hour pay periods that typically happen in one day.</li>
 					<li>The table outlining the statistics of recent payouts may contain inaccuracies. Its oldest entry is the first payout after the latest failed payout.</li>
 					<li>The Main Estimate Range is a range that represents a 3% error of the Estimate Value or 6 BAN, whichever is less.</li>
@@ -172,13 +172,15 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 	if (pointsMode == "ppd") {
 		document.getElementById("text").innerHTML = "Estimates are in BAN per Day.";
 	} else {
-		document.getElementById("text").innerHTML = "Estimates are for next payout.";
+		document.getElementById("text").innerHTML = "Estimates are for next payout. Payouts occur at noon and midnight UTC.";
 	}
 }
 
 let infoTableArray = [
 	['Payout','Folders', 'BAN Distributed'],
-	['22-May-2021 AM', 9974, 311228.99],
+	['23-May-2021 AM', 0, 0],
+	['22-May-2021 PM', 9643, 311415.37],
+	['22-May-2021 AM', 9974, 311228.99], 
 	['21-May-2021 PM', 10109, 322964.56], 
 	['21-May-2021 AM', 10312, 328833.78], 
 	['20-May-2021 PM', 9689, 315439.54], 
