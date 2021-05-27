@@ -121,7 +121,7 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 		// i literally dont know how shift will affect this so that's fun
 		output = ((1.4969 * Math.pow(10, -12) * Math.pow(pendingPoints, 2)) + (7.9561 * Math.pow(10, -6) * pendingPoints) + 93.1).toFixed(2);
 	} else if(pendingPoints > 2998747){ // intersection of this line to the line below
-		output = ((1/(-0.05651 + (0.9603 * (1/Math.log(pendingPoints))))) + 0.0361 - banPrice).toFixed(2);
+		output = ((1/(-0.05651 + (0.9603 * (1/Math.log(pendingPoints))))) + 0.0360 - banPrice).toFixed(2);
 	} else if (pendingPoints >= 300000) {
 		output = Math.exp(-5.0610 - Math.log(banPrice) + (0.4414 * Math.log(pendingPoints))).toFixed(2);
 	} else if (pendingPoints >= 150000) {
@@ -178,6 +178,7 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 
 let infoTableArray = [
 	['Payout','Folders', 'BAN Distributed'],
+	['27-May-2021 PM', 'Unknown', 'Unknown'],
 	['26-May-2021 PM', 0, 0],
 	['26-May-2021 AM', 9912, 315592.33],
 	['25-May-2021 PM', 9702, 409878.67], 
