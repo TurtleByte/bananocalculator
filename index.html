@@ -65,7 +65,7 @@
 					<li>The table outlining the statistics of recent payouts may contain inaccuracies.</li>
 					<li>The Main Estimate Range is a range that represents a 3% error of the Estimate Value or 6 BAN, whichever is less.</li>
 					<li>Rewards are only loosely based on the price of BAN, the formula itself does not take the price into account. Instead, the payouts are manually adjusted by BananoMiner.com. It seems to be the case that the higher the peak price of BAN, the lower the payouts globally. There is as yet no evidence to suggest that this works in reverse.</li>
-					<li><b>(*) Zeroes are included in the number of Folders Paid. They are Folders who were paid 0 BAN for their work. This is theorized to be the second type of penalization. Just like the first, it is unknown what causes this and it is unknown how to remove it.</b></li>
+					<li><b>(*) Zeroes are included in the number of Folders Paid. They are Folders who were paid 0 BAN for their work. It was an error that has since been eradicated.</b></li>
 				</ul>	
 				<p>If you'd like to donate some BAN, click <button class="btn" onclick="addressToClipboard()">here</button> to copy my BAN address to your clipboard.
 			</div>
@@ -180,7 +180,8 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 
 let infoTableArray = [
 	['Payout','BAN Distributed', 'Folders', 'Zeroes'],
-	['31-May-2021 PM',307714.69,  9280,  66],
+	['01-Jun-2021 AM',321557.01,  9578,   0],
+	['31-May-2021 PM',307714.69,  9280,  66], 
 	['31-May-2021 AM',313994.70,  9480,  89], 
 	['30-May-2021 PM',304681.88,  9112, 134], 
 	['30-May-2021 AM',307321.99,  9193, 122], 
