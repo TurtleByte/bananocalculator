@@ -65,7 +65,7 @@
 					<li>The table outlining the statistics of recent payouts may contain inaccuracies.</li>
 					<li>The Main Estimate Range is a range that represents a 3% error of the Estimate Value or 6 BAN, whichever is less.</li>
 					<li>Rewards are only loosely based on the price of BAN, the formula itself does not take the price into account. Instead, the payouts are manually adjusted by BananoMiner.com. It seems to be the case that the higher the peak price of BAN, the lower the payouts globally. There is as yet no evidence to suggest that this works in reverse.</li>
-					<li><b>(*) Zeroes are included in the number of Folders Paid. They are Folders who were paid 0 BAN for their work. It was an error that has since been eradicated.</b></li>
+					<li><b>(*) Number in parentheses are included in the number of Folders Paid. They are Folders who were paid 0 BAN for their work. It was an error that has since been fixed.</b></li>
 				</ul>	
 				<p>If you'd like to donate some BAN, click <button class="btn" onclick="addressToClipboard()">here</button> to copy my BAN address to your clipboard.
 			</div>
@@ -77,8 +77,7 @@
 				  <tr>
 					<th>Payout</th>
 					<th>BAN Distributed</th>
-					<th>Folders Paid</th>
-					<th>Zeroes*</th>
+					<th>Folders Paid*</th>
 				  </tr>
 				</thead>
 				<tbody id="infoTable">
@@ -179,53 +178,54 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 }
 
 let infoTableArray = [
-	['Payout','BAN Distributed', 'Folders', 'Zeroes'],
-	['01-Jun-2021 AM',321557.01,  9578,   0],
-	['31-May-2021 PM',307714.69,  9280,  66], 
-	['31-May-2021 AM',313994.70,  9480,  89], 
-	['30-May-2021 PM',304681.88,  9112, 134], 
-	['30-May-2021 AM',307321.99,  9193, 122], 
-	['29-May-2021 PM',292354.13,  8868, 126],  
-	['29-May-2021 AM',306713.57,  9438, 161],
-	['28-May-2021 PM',289602.21,  8939, 127], 
-	['28-May-2021 AM',301379.32,  9434, 234],
-	['27-May-2021 PM',263317.62,  8023, 213], 
-	['27-May-2021 AM',443912.67, 11712, 355], 
-	['26-May-2021 PM',        0,     0,   0],
-	['26-May-2021 AM',315592.33,  9912,   0],
-	['25-May-2021 PM',409878.67,  9702,   0],
-	['25-May-2021 AM',        0,     0,   0],
-	['24-May-2021 PM',309875.06,  9541,   0],
-	['24-May-2021 AM',318870.22,  9512,   0],
-	['23-May-2021 PM',436799.97,  9748,   0],
-	['23-May-2021 AM',        0,     0,   0],
-	['22-May-2021 PM',311415.37,  9643,   0],
-	['22-May-2021 AM',311228.99,  9974,   0],
-	['21-May-2021 PM',322964.56, 10109,   0],
-	['21-May-2021 AM',328833.78, 10312,   0],
-	['20-May-2021 PM',315439.54,  9689,   0],
-	['20-May-2021 AM',312812.64,  9825,   0],
-	['19-May-2021 PM',295443.88,  9287,   0],
-	['19-May-2021 AM',307127.32,  9945,   0],
-	['18-May-2021 PM',299222.07,  9414,   0],
-	['18-May-2021 AM',299862.41,  9373,   0],
-	['17-May-2021 PM',273165.19,  8906,   0],
-	['17-May-2021 AM',288783.53,  9269,   0],
-	['16-May-2021 PM',258893.26,  8329,   0],
-	['16-May-2021 AM',274622.74,  8803,   0],
-	['15-May-2021 PM',258291.30,  8771,   0],
-	['15-May-2021 AM',265879.82,  8713,   0],
-	['14-May-2021 PM',209728.77,  7245,   0],
-	['14-May-2021 AM',264476.69,  8711,   0],
-	['13-May-2021 PM',243834.84,  7974,   0],
-	['13-May-2021 AM',257303.88,  8338,   0],
-	['12-May-2021 PM',237559.46,  7780,   0],
-	['12-May-2021 AM',253939.66,  8359,   0],
-	['11-May-2021 PM',238809.02,  7766,   0],
-	['11-May-2021 AM',246945.97,  7923,   0],
-	['10-May-2021 PM',242639.34,  8000,   0],
-	['10-May-2021 AM',238908.12,  7876,   0],
-	['09-May-2021 PM',322268.32,  8904,   0]
+	['Payout','BAN Distributed', 'Folders*'],
+	['01-Jun-2021 PM',314813.13,  9521],
+	['01-Jun-2021 AM',321557.01,  9578], 
+	['31-May-2021 PM',307714.69,' 9280 (66)'], 
+	['31-May-2021 AM',313994.70,' 9480 (89)'], 
+	['30-May-2021 PM',304681.88,' 9112 (134)'], 
+	['30-May-2021 AM',307321.99,' 9193 (122)'], 
+	['29-May-2021 PM',292354.13,' 8868 (126)'],  
+	['29-May-2021 AM',306713.57,' 9438 (161)'],
+	['28-May-2021 PM',289602.21,' 8939 (127)'], 
+	['28-May-2021 AM',301379.32,' 9434 (234)'],
+	['27-May-2021 PM',263317.62,' 8023 (213)'], 
+	['27-May-2021 AM',443912.67,'11712 (355)'], 
+	['26-May-2021 PM',        0,     0],
+	['26-May-2021 AM',315592.33,  9912],
+	['25-May-2021 PM',409878.67,  9702],
+	['25-May-2021 AM',        0,     0],
+	['24-May-2021 PM',309875.06,  9541],
+	['24-May-2021 AM',318870.22,  9512],
+	['23-May-2021 PM',436799.97,  9748],
+	['23-May-2021 AM',        0,     0],
+	['22-May-2021 PM',311415.37,  9643],
+	['22-May-2021 AM',311228.99,  9974],
+	['21-May-2021 PM',322964.56, 10109],
+	['21-May-2021 AM',328833.78, 10312],
+	['20-May-2021 PM',315439.54,  9689],
+	['20-May-2021 AM',312812.64,  9825],
+	['19-May-2021 PM',295443.88,  9287],
+	['19-May-2021 AM',307127.32,  9945],
+	['18-May-2021 PM',299222.07,  9414],
+	['18-May-2021 AM',299862.41,  9373],
+	['17-May-2021 PM',273165.19,  8906],
+	['17-May-2021 AM',288783.53,  9269],
+	['16-May-2021 PM',258893.26,  8329],
+	['16-May-2021 AM',274622.74,  8803],
+	['15-May-2021 PM',258291.30,  8771],
+	['15-May-2021 AM',265879.82,  8713],
+	['14-May-2021 PM',209728.77,  7245],
+	['14-May-2021 AM',264476.69,  8711],
+	['13-May-2021 PM',243834.84,  7974],
+	['13-May-2021 AM',257303.88,  8338],
+	['12-May-2021 PM',237559.46,  7780],
+	['12-May-2021 AM',253939.66,  8359],
+	['11-May-2021 PM',238809.02,  7766],
+	['11-May-2021 AM',246945.97,  7923],
+	['10-May-2021 PM',242639.34,  8000],
+	['10-May-2021 AM',238908.12,  7876],
+	['09-May-2021 PM',322268.32,  8904]
 ]
 
 //makes an HTML table from the array
