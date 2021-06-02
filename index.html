@@ -36,22 +36,25 @@
 					</label>
 						<div class="col-2">
 							<input class="form-control" type="number" min="0" step="1000" value="0" id="pendingpoints" oninput="updateValues()">
-							<b><span id="text">Estimates are in BAN per Day.</span></b>
+						</div>
+						<div class="col-2">
+							<label class="col-2 col-form-label">Hours Per Work Unit</label>
+							<input class="form-control" type="number" min="0.1" step="0.1" value="0.1" id="foldduration" oninput="updateValues()">
 						</div>
 				</div>
 				<div class="col-sm-6">
 					<h2 align="center">
 						<span id="output">???</span>
 						<br>
-						<small>Main Estimate Range</small>
+						<small><b>Main Estimate Range</b><br><span id="text">Earnings per Day.</span></small>
 					</h2>
-					<p align="center">This range covers roughly 74% of all payouts.</p>
+					<p align="center"><b><span id='lowpointswarning' style="color:red"></span></b> This range covers roughly 74% of all payouts.</p>
 				</div>
 				<div class="col-sm-3">
 					<h2 align="center">
 						<span id="floorOutput">???</span>
 						<br>
-						<small>Floor Estimate</small>
+						<small><b>Floor Estimate</b></small>
 					</h2>
 					<p align="center">~99% of all payouts are above this estimate.</p>
 				</div>
@@ -91,6 +94,7 @@
 let pendingPointsElement = document.getElementById("pendingpoints");
 let banPriceElement = document.getElementById("banprice");
 let pointsModeElement = document.getElementById("pointsMode");
+let foldDurationElement = document.getElementById("foldduration");
 
 $(document).ready(function(){
 	$('[data-toggle="popover"]').popover(); 
@@ -164,6 +168,14 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 		lowerBound = 0;
 		upperBound = 0;
 		floorOutput = 0;
+	}
+	
+	if(foldDurationElement.value > 12){
+		document.getElementById("lowpointswarning").innerHTML = "Payouts occur every 12 hours. Completing a Work Unit less often than this means you will not be included in all payouts.";
+		lowerBound = (lowerBound * (12 / foldDurationElement.value)).toFixed(2)
+		upperBound = (upperBound * (12 / foldDurationElement.value)).toFixed(2)
+	} else {
+		document.getElementById("lowpointswarning").innerHTML = "";
 	}
 	
 	document.getElementById("output").innerHTML = lowerBound + " - " + upperBound + " BAN";
