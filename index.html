@@ -170,7 +170,7 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 		floorOutput = 0;
 	}
 	
-	if(foldDurationElement.value > 12){
+	if(foldDurationElement.value > 12 && pointsMode == "ppd"){
 		document.getElementById("lowpointswarning").innerHTML = "Payouts occur every 12 hours. Completing a Work Unit less often than this means you will not be included in all payouts.";
 		lowerBound = (lowerBound * (12 / foldDurationElement.value)).toFixed(2)
 		upperBound = (upperBound * (12 / foldDurationElement.value)).toFixed(2)
