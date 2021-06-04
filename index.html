@@ -121,12 +121,12 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 	banPrice = 0.0379;
 	minimumPayout = 9.68
 	
-	if (pendingPoints > 42449000) {
-		output = ((6.63 * Math.pow(10, -5) * pendingPoints + 132)).toFixed(2);
+	if (pendingPoints > 42086000) {
+		output = ((6.63 * Math.pow(10, -5) * pendingPoints + 130)).toFixed(2);
 	} else if (pendingPoints > 8659958) { // intersection of this line and line below
 		output = ((1.41 * Math.pow(10, -12) * Math.pow(pendingPoints, 2)) + (7.9561 * Math.pow(10, -6) * pendingPoints) + 88).toFixed(2);
 	} else if(pendingPoints > 2754439){ // intersection of this line and line below
-		output = ((1/(-0.05651 + (0.9603 * (1/Math.log(pendingPoints))))) + 0.0360 - banPrice).toFixed(2);
+		output = ((1/(-0.05573 + (0.9538 * (1/Math.log(pendingPoints)))))).toFixed(2);
 	} else if (pendingPoints >= 300000) {
 		output = Math.exp(-5.0610 - Math.log(banPrice) + (0.4414 * Math.log(pendingPoints))).toFixed(2);
 	} else if (pendingPoints >= 150000) {
