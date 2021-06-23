@@ -48,7 +48,7 @@
 						<br>
 						<small><b>Main Estimate Range</b><br><span id="text">Earnings per Day.</span></small>
 					</h2>
-					<p align="center"><b><span id='lowpointswarning' style="color:red"></span></b> This range covers roughly 74% of all payouts.</p>
+					<p align="center"><b><span id='lowpointswarning' style="color:red"></span></b> This range covers roughly 73% of all payouts.</p>
 				</div>
 				<div class="col-sm-3">
 					<h2 align="center">
@@ -56,7 +56,7 @@
 						<br>
 						<small><b>Floor Estimate</b></small>
 					</h2>
-					<p align="center">~99% of all payouts are above this estimate.</p>
+					<p align="center">~95% of all payouts are above this estimate.</p>
 				</div>
 			</div>
 			<div class="row">
@@ -122,11 +122,11 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 	minimumPayout = 9.68
 	
 	if (pendingPoints > 42086000) {
-		output = ((6.63 * Math.pow(10, -5) * pendingPoints + 130)).toFixed(2);
+		output = ((6.48 * Math.pow(10, -5) * pendingPoints + 0)).toFixed(2);
 	} else if (pendingPoints > 8659958) { // intersection of this line and line below
-		output = ((1.41 * Math.pow(10, -12) * Math.pow(pendingPoints, 2)) + (7.9561 * Math.pow(10, -6) * pendingPoints) + 88).toFixed(2);
-	} else if(pendingPoints > 2754439){ // intersection of this line and line below
-		output = ((1/(-0.05573 + (0.9538 * (1/Math.log(pendingPoints)))))).toFixed(2);
+		output = ((1.4 * Math.pow(10, -12) * Math.pow(pendingPoints, 2)) + (6 * Math.pow(10, -6) * pendingPoints) + 75).toFixed(2);
+	} else if(pendingPoints > 2804664){ // intersection of this line and line below
+		output = (-6 + (1/(-0.05573 + (0.9538 * (1/Math.log(pendingPoints)))))).toFixed(2);
 	} else if (pendingPoints >= 300000) {
 		output = Math.exp(-5.0610 - Math.log(banPrice) + (0.4414 * Math.log(pendingPoints))).toFixed(2);
 	} else if (pendingPoints >= 150000) {
@@ -136,7 +136,10 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 	} else {
 		output = Math.exp(-9.5797 - Math.log(banPrice) + (0.8545 * Math.log(pendingPoints))).toFixed(2);
 	}
-	if (output < minimumPayout) {
+	
+	if (pendingPoints <= 160){
+		output = Math.exp(-6.021 - Math.log(banPrice) + (Math.log(pendingPoints))).toFixed(2);
+	} else if (output < minimumPayout) {
 		output = minimumPayout
 	}
 	
@@ -191,7 +194,8 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 
 let infoTableArray = [
 	['Payout','BAN Distributed', 'Folders*'],
-	['22-Jun-2021 PM',289243.58, 11255],
+	['23-Jun-2021 AM',294791.31, 10221],
+	['22-Jun-2021 PM',289243.58, 11255], 
 	['22-Jun-2021 AM',243429.14, 11517], 
 	['21-Jun-2021 PM',234925.39,  9257], 
 	['21-Jun-2021 AM',244084.44,  9733], 
