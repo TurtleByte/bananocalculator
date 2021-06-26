@@ -66,7 +66,7 @@
 					<li>"Pending Points" are the points you have accumulated since the last time you were paid by BananoMiner. You can find out how many pending points you have by going to <a href="https://www.monkey2monkey.com/fh-stats/">Monkey2Monkey.com</a> or <a href="https://www.nanners.cc/">Nanners.cc</a>.</li>
 					<li>"Points Per Day" calculations are done on the assumption that the points are evenly distributed among the 2, 12-hour pay periods that typically happen in one day.</li>
 					<li>The table outlining the statistics of recent payouts may contain inaccuracies.</li>
-					<li>The Main Estimate Range is a range that represents a 3% error of the Estimate Value or 6 BAN, whichever is less.</li>
+					<li>The Main Estimate Range is a range that represents a 4% error of the Estimate Value or 6 BAN, whichever is less.</li>
 					<li>Rewards are only loosely based on the price of BAN, the formula itself does not take the price into account. Instead, the payouts are manually adjusted by BananoMiner.com. It seems to be the case that the higher the peak price of BAN, the lower the payouts globally. There is as yet no evidence to suggest that this works in reverse.</li>
 					<li><b>(*) Number in parentheses are included in the number of Folders Paid. They are Folders who were paid 0 BAN for their work. It was an error that has since been fixed.</b></li>
 				</ul>	
@@ -118,9 +118,11 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 		pendingPoints = parseFloat(pendingPoints) / 2;
 	};
 	
-	banPrice = 0.0399;
-	minimumPayout = 9.68
+	banPrice = 1;
+	minimumPayout = 9.73
 	
+	// MAIN FORMULA START
+	/*
 	if (pendingPoints > 42086000) {
 		output = ((6.48 * Math.pow(10, -5) * pendingPoints + 0)).toFixed(2);
 	} else if (pendingPoints > 8659958) { // intersection of this line and line below
@@ -142,15 +144,28 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 	} else if (output < minimumPayout) {
 		output = minimumPayout
 	}
+	*/
 	
-	let output2 = Math.exp(-15.8968 - Math.log(banPrice) + (17.6 * Math.log(Math.log(Math.log(pendingPoints))))).toFixed(2);
+	let output = Math.exp(4.8 - Math.log(banPrice) + (15 * Math.log(Math.log(Math.log(Math.log(pendingPoints)))))).toFixed(2);
+	if(output < minimumPayout){
+		output = minimumPayout;
+	} else if (output < minimumPayout){
+		output = minimumPayout;
+	}
+	
+	// MAIN FORMULA END
+	
+	// NERFED FORMULA START
+	let output2 = Math.exp(4.7 - Math.log(banPrice) + (15.9 * Math.log(Math.log(Math.log(pendingPoints))))).toFixed(2);
 	if(output2 < minimumPayout){
 		output2 = minimumPayout;
 	} else if (pendingPoints >= 300000){
 		output2 = 'N/A';
 	}
+	// NERFED FORMULA END
 	
-	let floorOutput = Math.exp(-10.24 + Math.log(banPrice) + (17.6 * Math.log(Math.log(Math.log(pendingPoints))))).toFixed(2);
+	//  OFFSET USES OUTPUT OF MAIN FORMULA
+	let floorOutput = Math.exp(3.8 - Math.log(banPrice) + (15.9 * Math.log(Math.log(Math.log(Math.log(pendingPoints)))))).toFixed(2);
 	let offset = Math.min(0.03 * output, 6);
 	
 	
@@ -194,7 +209,8 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 
 let infoTableArray = [
 	['Payout','BAN Distributed', 'Folders*'],
-	['25-Jun-2021 PM',138749.94,  6941],
+	['26-Jun-2021 AM',143963.27,  6750],
+	['25-Jun-2021 PM',138749.94,  6941], 
 	['25-Jun-2021 AM',187358.98,  7882], 
 	['24-Jun-2021 PM',217010.96,  7493], 
 	['24-Jun-2021 AM',309011.51, 11045], 
