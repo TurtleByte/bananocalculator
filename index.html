@@ -18,13 +18,15 @@
 
 	  gtag('config', 'G-FSYSR80F3P');
 	</script>
+	<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+	</script>
 <body onload="createTable(infoTableArray)">
 
 <div class="container-fluid" style="width:90%;">
 	<div class="row">
 		<div class="col-sm-8">
-			<h1>F@H Points-to-Banano Calculator<br>
-				<small>There Is No Ratio</small>
+			<h1>F@H Points-to-Banano Calculator <small>"There Is No Ratio"</small>
 			</h1>
 			<div class="row">
 				<div class="col-sm-3">
@@ -48,7 +50,7 @@
 						<br>
 						<small><b>Main Estimate Range</b><br><span id="text">Earnings per Day.</span></small>
 					</h2>
-					<p align="center"><b><span id='lowpointswarning' style="color:red"></span></b> This range covers roughly 73% of all payouts.</p>
+					<p align="center"><b><span id='lowpointswarning' style="color:red"></span></b> This range covers >70% of all payouts.</p>
 				</div>
 				<div class="col-sm-3">
 					<h2 align="center">
@@ -56,24 +58,22 @@
 						<br>
 						<small><b>Floor Estimate</b></small>
 					</h2>
-					<p align="center">~95% of all payouts are above this estimate.</p>
+					<p align="center">Most payouts are above this estimate.</p>
 				</div>
 			</div>
 			<div class="row">
 				<h2><small>Things To Know</small></h2>
 				<ul>
 					<li><b>If your payouts are not accurately depicted here, you are "Penalized" or the payout equation has significantly changed. There is currently no way to reliably predict Penalized payouts but they account for a quarter of all payouts. It is unknown what causes an address to be Penalized. As such, it is also unknown how to remove this penalty.</b></li>
-					<li>"Pending Points" are the points you have accumulated since the last time you were paid by BananoMiner. You can find out how many pending points you have by going to <a href="https://www.monkey2monkey.com/fh-stats/">Monkey2Monkey.com</a> or <a href="https://www.nanners.cc/">Nanners.cc</a>.</li>
-					<li>"Points Per Day" calculations are done on the assumption that the points are evenly distributed among the 2, 12-hour pay periods that typically happen in one day.</li>
-					<li>The table outlining the statistics of recent payouts may contain inaccuracies.</li>
-					<li>The Main Estimate Range is a range that represents a 4% error of the Estimate Value or 6 BAN, whichever is less.</li>
-					<li>Rewards are only loosely based on the price of BAN, the formula itself does not take the price into account. Instead, the payouts are manually adjusted by BananoMiner.com. It seems to be the case that the higher the peak price of BAN, the lower the payouts globally. There is as yet no evidence to suggest that this works in reverse.</li>
-					<li><b>(*) Number in parentheses are included in the number of Folders Paid. They are Folders who were paid 0 BAN for their work. It was an error that has since been fixed.</b></li>
+					<li>"Pending Points" are the points you have accumulated since the last time you were paid by BananoMiner. You can find out how many pending points you have by going to <a href="https://www.monkey2monkey.com/fh-stats/">Monkey2Monkey.com</a> or <a href="https://www.nanners.cc/">Nanners.cc</a>. "Points Per Day" calculations are done on the assumption that the points are evenly distributed among the 2, 12-hour pay periods that typically happen in one day.</li>
+					<li>The Main Estimate Range is a range that represents a 4% error of the Estimate Value or 6 BAN, whichever is less. Rewards are only loosely based on the price of BAN, the formula itself does not take the price into account. Instead, the payouts are manually adjusted by BananoMiner.com. It seems to be the case that the higher the peak price of BAN, the lower the payouts globally. There is as yet no evidence to suggest that this works in reverse.</li>
+					<li><b>(*) Number in parentheses are included in the number of Folders Paid. They are Folders who were paid 0 BAN for their work. It was an error that has since been fixed. The table outlining the statistics of recent payouts may contain inaccuracies.</b></li>
 				</ul>	
 				<p>If you'd like to donate some BAN, click <button class="btn" onclick="addressToClipboard()">here</button> to copy my BAN address to your clipboard.
 			</div>
+			<canvas id="myChart" style="width:80%;"></canvas>
 		</div>
-		<div class="col-sm-4" style="height:85%; overflow-y:scroll;">
+		<div class="col-sm-4" style="height:100%; overflow-y:scroll;">
 			<br>
 			<table class="table table-striped">
 				<thead>
@@ -363,8 +363,55 @@ let infoTableArray = [
 	};
 	
 	function addressToClipboard(){
-		var promise = navigator.clipboard.writeText('ban_3r7xbz8u5wj4wgkhmojzq6mmiq7ekawtarnfgwsneeck8ktn6zy58ax3ejkn')
-	}
+		var promise = navigator.clipboard.writeText('ban_3r7xbz8u5wj4wgkhmojzq6mmiq7ekawtarnfgwsneeck8ktn6zy58ax3ejkn');
+	};
+
+var xValues = [];
+var payoutValues = [];
+var folderValues = [];
+for(var i = 1; i <= 60; i++){
+	xValues.push(infoTableArray[i][0]);
+	payoutValues.push(infoTableArray[i][1]);
+	folderValues.push(infoTableArray[i][2]);
+}
+
+xValues = xValues.reverse();
+payoutValues = payoutValues.reverse();
+folderValues = folderValues.reverse();
+
+new Chart("myChart", {
+  type: 'line',
+  data: {
+    labels: xValues,
+    datasets: [{
+      label: 'BAN Distributed',
+      yAxisID: 'A',
+      data: payoutValues,
+	  borderColor: "blue",
+      fill: true
+    }, {
+      label: 'Number of Folders',
+      yAxisID: 'B',
+      data: folderValues,
+	  borderColor: "red",
+      fill: true
+    }]
+  },
+  options: {
+    scales: {
+      yAxes: [{
+        id: 'A',
+        type: 'linear',
+        position: 'left',
+      }, {
+        id: 'B',
+        type: 'linear',
+        position: 'right'
+      }]
+    }
+  }
+});
+
 
 </script>
 </body>
