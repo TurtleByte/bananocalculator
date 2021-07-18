@@ -45,27 +45,34 @@
 							<input class="form-control" type="number" min="0.1" step="0.1" value="0.1" id="foldduration" oninput="updateValues()">
 						</div>
 				</div>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<h2 align="center">
 						<span id="roofOutput">???</span>
 						<br>
-						<small><b>Ceiling Estimate</b></small>
+						<small><b>Ceiling Payout</b></small>
 					</h2>
 					<p align="center">This is the highest payout for someone within 1% of your pending points.</p>
 				</div>
 				<div class="col-sm-3">
 					<h2 align="center">
-						<span id="output">???</span>
+						<span id="averageOutput">???</span>
 						<br>
-						<small><b>Main Estimate Range</b><br><span id="text">Earnings per Day.</span></small>
+						<small><b>Average Payout</b><br><span id="text">Earnings per Day.</span></small>
 					</h2>
-					<p align="center"><b><span id='lowpointswarning' style="color:red"></span></b> This range covers >70% of all payouts.</p>
+					<p align="center"><b><span id='lowpointswarning' style="color:red"></span></b> This is the average payout for someone within 1% of your pending points.</p>
+				</div><div class="col-sm-3">
+					<h2 align="center">
+						<span id="medianOutput">???</span>
+						<br>
+						<small><b>Median Payout</b></small>
+					</h2>
+					<p align="center"><b><span id='lowpointswarning' style="color:red"></span></b> This is the median payout for someone within 1% of your pending points.</p>
 				</div>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<h2 align="center">
 						<span id="floorOutput">???</span>
 						<br>
-						<small><b>Floor Estimate</b></small>
+						<small><b>Floor Payout</b></small>
 					</h2>
 					<p align="center">This is the lowest payout for someone within 1% of your pending points.</p>
 				</div>
@@ -135,50 +142,23 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 		pendingPoints = parseFloat(pendingPoints) / 2;
 	};
 	
-	banPrice = 1.059;
-	minimumPayout = 9.73
-	
-	// MAIN FORMULA START
-	
-	let output = Math.exp(4.8 - Math.log(banPrice) + (15 * Math.log(Math.log(Math.log(Math.log(pendingPoints)))))).toFixed(2);
-	if(output < minimumPayout){
-		output = minimumPayout;
-	} else if (output < minimumPayout){
-		output = minimumPayout;
-	}
-	
-	// MAIN FORMULA END
-	
-	//  OFFSET USES OUTPUT OF MAIN FORMULA
 	let withinRangeList = [];
 	console.log("Checking for " + pendingPoints);
 	for (var i = 0; i < Everything.length; i++) {
 		if(Math.abs(parseFloat(Everything[i]['points']) - pendingPoints) <= (pendingPoints * 0.01)){
-			withinRangeList.push(Everything[i]['payout']);
+			withinRangeList.push(parseFloat(Everything[i]['payout']));
 		}
 	}
 	floorOutput = Math.min(...withinRangeList);
 	roofOutput = Math.max(...withinRangeList);
+	medianOutput = withinRangeList.sort()[Math.floor(withinRangeList.length/2)];
 	
-	let offset = Math.min(0.03 * output, 6);
-	lowerBound = (output - offset).toFixed(2);
-	upperBound = (parseFloat(output) + offset).toFixed(2);
-	
-	if (pointsMode == "ppd") {
-		lowerBound = Math.max(lowerBound * 2, 0);
-		upperBound = upperBound * 2;
-		floorOutput = floorOutput * 2;
+	let averageOutput = 0;
+	for(var i = 0; i < withinRangeList.length; i++){
+		averageOutput += withinRangeList[i];
 	}
+	averageOutput = averageOutput / withinRangeList.length;
 	
-	if (output == '???'){
-		floorOutput = output
-	}
-	
-	if(pendingPoints == 0){
-		lowerBound = 0;
-		upperBound = 0;
-		floorOutput = 0;
-	}
 	
 	if(foldDurationElement.value > 12 && pointsMode == "ppd"){
 		document.getElementById("lowpointswarning").innerHTML = "Payouts occur every 12 hours. Completing a Work Unit less often than this means you will not be included in all payouts.";
@@ -188,8 +168,8 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 		document.getElementById("lowpointswarning").innerHTML = "";
 	}
 	
-	document.getElementById("output").innerHTML = lowerBound + " - " + upperBound + " BAN";
-	// document.getElementById("output2").innerHTML = output2 + " BAN";
+	document.getElementById("averageOutput").innerHTML = averageOutput.toFixed(2) + " BAN";
+	document.getElementById("medianOutput").innerHTML = medianOutput.toFixed(2) + " BAN";
 	document.getElementById("roofOutput").innerHTML = roofOutput + " BAN";
 	document.getElementById("floorOutput").innerHTML = floorOutput + " BAN";
 	
