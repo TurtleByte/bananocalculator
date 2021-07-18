@@ -51,7 +51,7 @@
 						<br>
 						<small><b>Ceiling Payout</b></small>
 					</h2>
-					<p align="center">This is the highest payout for someone within 1% of your pending points.</p>
+					<p align="center">This is the highest payout for someone within 5% of your pending points.</p>
 				</div>
 				<div class="col-sm-3">
 					<h2 align="center">
@@ -59,14 +59,14 @@
 						<br>
 						<small><b>Average Payout</b><br><span id="text">Earnings per Day.</span></small>
 					</h2>
-					<p align="center"><b><span id='lowpointswarning' style="color:red"></span></b> This is the average payout for someone within 1% of your pending points.</p>
+					<p align="center">This is the average payout for someone within 5% of your pending points.</p>
 				</div><div class="col-sm-2">
 					<h2 align="center">
 						<span id="medianOutput">???</span>
 						<br>
 						<small><b>Median Payout</b></small>
 					</h2>
-					<p align="center"><b><span id='lowpointswarning' style="color:red"></span></b> This is the median payout for someone within 1% of your pending points.</p>
+					<p align="center">This is the median payout for someone within 5% of your pending points.</p>
 				</div>
 				<div class="col-sm-2">
 					<h2 align="center">
@@ -74,13 +74,13 @@
 						<br>
 						<small><b>Floor Payout</b></small>
 					</h2>
-					<p align="center">This is the lowest payout for someone within 1% of your pending points.</p>
+					<p align="center">This is the lowest payout for someone within 5% of your pending points.</p>
 				</div>
 			</div>
 			<div class="row">
 				<h2><small>Things To Know</small></h2>
 				<ul>
-					<li><b>If your payouts are not accurately depicted here, you are "Penalized" or the payout equation has significantly changed. There is currently no way to reliably predict Penalized payouts but they account for a quarter of all payouts. It is unknown what causes an address to be Penalized. As such, it is also unknown how to remove this penalty.</b></li>
+					<li><b><span id='lowpointswarning' style="color:red"></span></b><b>If your payouts are not accurately depicted here, you are "Penalized" or the payout equation has significantly changed. There is currently no way to reliably predict Penalized payouts but they account for a quarter of all payouts. It is unknown what causes an address to be Penalized. As such, it is also unknown how to remove this penalty.</b></li>
 					<li>"Pending Points" are the points you have accumulated since the last time you were paid by BananoMiner. You can find out how many pending points you have by going to <a href="https://www.monkey2monkey.com/fh-stats/">Monkey2Monkey.com</a> or <a href="https://www.nanners.cc/">Nanners.cc</a>. "Points Per Day" calculations are done on the assumption that the points are evenly distributed among the 2, 12-hour pay periods that typically happen in one day.</li>
 					<li>The Main Estimate Range is a range that represents a 5% error of the Estimate Value or 6 BAN, whichever is less. The payouts are manually adjusted by BananoMiner.com and rewards may change for undisclosed reasons.</li>
 					<li><b>(*) Number in parentheses are included in the number of Folders Paid. They are Folders who were paid 0 BAN for their work. It was an error that has since been fixed. The table outlining the statistics of recent payouts may contain inaccuracies.</b></li>
@@ -142,28 +142,35 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 		pendingPoints = parseFloat(pendingPoints) / 2;
 	};
 	
-	let withinRangeList = [];
-	console.log("Checking for " + pendingPoints);
-	for (var i = 0; i < Everything.length; i++) {
-		if(Math.abs(parseFloat(Everything[i]['points']) - pendingPoints) <= (pendingPoints * 0.01)){
-			withinRangeList.push(parseFloat(Everything[i]['payout']));
+	if(pendingPoints >= 3000){
+		let withinRangeList = [];
+		console.log("Checking for " + pendingPoints);
+		for (var i = 0; i < Everything.length; i++) {
+			if(Math.abs(parseFloat(Everything[i]['points']) - pendingPoints) <= (pendingPoints * 0.05)){
+				withinRangeList.push(parseFloat(Everything[i]['payout']));
+			}
 		}
+		floorOutput = Math.min(...withinRangeList);
+		roofOutput = Math.max(...withinRangeList);
+		medianOutput = withinRangeList.sort()[Math.floor(withinRangeList.length/2)];
+		let averageOutput = 0;
+		for(var i = 0; i < withinRangeList.length; i++){
+			averageOutput += withinRangeList[i];
+		}
+		averageOutput = averageOutput / withinRangeList.length;
+	} else {
+		floorOutput = 0;
+		roofOutput = 0;
+		averageOutput = 0;
+		medianOutput = 0;
 	}
-	floorOutput = Math.min(...withinRangeList);
-	roofOutput = Math.max(...withinRangeList);
-	medianOutput = withinRangeList.sort()[Math.floor(withinRangeList.length/2)];
-	
-	let averageOutput = 0;
-	for(var i = 0; i < withinRangeList.length; i++){
-		averageOutput += withinRangeList[i];
-	}
-	averageOutput = averageOutput / withinRangeList.length;
-	
 	
 	if(foldDurationElement.value > 12 && pointsMode == "ppd"){
 		document.getElementById("lowpointswarning").innerHTML = "Payouts occur every 12 hours. Completing a Work Unit less often than this means you will not be included in all payouts.";
-		lowerBound = (lowerBound * (12 / foldDurationElement.value)).toFixed(2)
-		upperBound = (upperBound * (12 / foldDurationElement.value)).toFixed(2)
+		averageOutput = (averageOutput * (12 / foldDurationElement.value)).toFixed(2);
+		medianOutput = (medianOutput * (12 / foldDurationElement.value)).toFixed(2);
+		roofOutput = (roofOutput * (12 / foldDurationElement.value)).toFixed(2);
+		floorOutput = (floorOutput * (12 / foldDurationElement.value)).toFixed(2);
 	} else {
 		document.getElementById("lowpointswarning").innerHTML = "";
 	}
