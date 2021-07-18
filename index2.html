@@ -150,19 +150,19 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 				withinRangeList.push(parseFloat(Everything[i]['payout']));
 			}
 		}
-		let floorOutput = Math.min(...withinRangeList);
-		let roofOutput = Math.max(...withinRangeList);
-		let averageOutput = 0;
+		var floorOutput = Math.min(...withinRangeList);
+		var roofOutput = Math.max(...withinRangeList);
+		var averageOutput = 0;
 		for(var i = 0; i < withinRangeList.length; i++){
 			averageOutput += withinRangeList[i];
 		}
 		averageOutput = averageOutput / withinRangeList.length;
-		let medianOutput = withinRangeList.sort()[Math.floor(withinRangeList.length/2)];
+		var medianOutput = withinRangeList.sort()[Math.floor(withinRangeList.length/2)];
 	} else {
-		let floorOutput = 0;
-		let roofOutput = 0;
-		let averageOutput = 0;
-		let medianOutput = 0;
+		var floorOutput = 0;
+		var roofOutput = 0;
+		var averageOutput = 0;
+		var medianOutput = 0;
 	}
 	
 	if(foldDurationElement.value > 12 && pointsMode == "ppd"){
