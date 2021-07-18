@@ -167,18 +167,18 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 	
 	if(foldDurationElement.value > 12 && pointsMode == "ppd"){
 		document.getElementById("lowpointswarning").innerHTML = "Payouts occur every 12 hours. Completing a Work Unit less often than this means you will not be included in all payouts.";
-		averageOutput = (averageOutput * (12 / foldDurationElement.value)).toFixed(2);
-		medianOutput = (medianOutput * (12 / foldDurationElement.value)).toFixed(2);
-		roofOutput = (roofOutput * (12 / foldDurationElement.value)).toFixed(2);
-		floorOutput = (floorOutput * (12 / foldDurationElement.value)).toFixed(2);
+		averageOutput = (averageOutput * (12 / foldDurationElement.value));
+		medianOutput = (medianOutput * (12 / foldDurationElement.value));
+		roofOutput = (roofOutput * (12 / foldDurationElement.value));
+		floorOutput = (floorOutput * (12 / foldDurationElement.value));
 	} else {
 		document.getElementById("lowpointswarning").innerHTML = "";
 	}
 	console.log(averageOutput, medianOutput, roofOutput, floorOutput);
-	document.getElementById("averageOutput").innerHTML = averageOutput + " BAN";
-	document.getElementById("medianOutput").innerHTML = medianOutput + " BAN";
-	document.getElementById("roofOutput").innerHTML = roofOutput + " BAN";
-	document.getElementById("floorOutput").innerHTML = floorOutput + " BAN";
+	document.getElementById("averageOutput").innerHTML = averageOutput.toFixed(2) + " BAN";
+	document.getElementById("medianOutput").innerHTML = medianOutput.toFixed(2) + " BAN";
+	document.getElementById("roofOutput").innerHTML = roofOutput.toFixed(2) + " BAN";
+	document.getElementById("floorOutput").innerHTML = floorOutput.toFixed(2) + " BAN";
 	
 	if (pointsMode == "ppd") {
 		document.getElementById("text").innerHTML = "All numbers displayed are in BAN per Day.";
