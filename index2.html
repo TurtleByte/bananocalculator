@@ -157,8 +157,8 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 			withinRangeList.push(Everything[i]['payout']);
 		}
 	}
-	floorOutput = Math.min(withinRangeList);
-	roofOutput = Math.max(withinRangeList);
+	floorOutput = Math.min(...withinRangeList);
+	roofOutput = Math.max(...withinRangeList);
 	
 	let offset = Math.min(0.03 * output, 6);
 	lowerBound = (output - offset).toFixed(2);
