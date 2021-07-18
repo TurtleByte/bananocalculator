@@ -1,6 +1,6 @@
 <html lang="en">
 <head>
-	<title>F@H Points-to-Banano Calculator</title>
+	<title>F@H Points-to-Banano Experimental Estimator</title>
 	<meta name="description" content="There is no conversion rate. There is no ratio. This is how many Banano you'll get for your points. Stop asking. This is it. Bookmark this so you'll never have to look for it again." />
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -27,7 +27,7 @@
 <div class="container-fluid" style="width:90%;">
 	<div class="row">
 		<div class="col-sm-8">
-			<h1>F@H Points-to-Banano Calculator <small>"There Is No Ratio"</small>
+			<h1>F@H Points-to-Banano Experimental Estimator <small>"There Is No Ratio"</small>
 			</h1>
 			<div class="row">
 				<div class="col-sm-3">
@@ -45,7 +45,15 @@
 							<input class="form-control" type="number" min="0.1" step="0.1" value="0.1" id="foldduration" oninput="updateValues()">
 						</div>
 				</div>
-				<div class="col-sm-6">
+				<div class="col-sm-3">
+					<h2 align="center">
+						<span id="roofOutput">???</span>
+						<br>
+						<small><b>Ceiling Estimate</b></small>
+					</h2>
+					<p align="center">This is the highest payout for someone within 1% of your pending points.</p>
+				</div>
+				<div class="col-sm-3">
 					<h2 align="center">
 						<span id="output">???</span>
 						<br>
@@ -59,7 +67,7 @@
 						<br>
 						<small><b>Floor Estimate</b></small>
 					</h2>
-					<p align="center">Most payouts are above this estimate.</p>
+					<p align="center">This is the lowest payout for someone within 1% of your pending points.</p>
 				</div>
 			</div>
 			<div class="row">
@@ -143,10 +151,14 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 	
 	//  OFFSET USES OUTPUT OF MAIN FORMULA
 	let floorOutput = 1000;
+	let roofOutput = 0;
 	console.log("Checking floor for " + pendingPoints);
 	for (var i = 0; i < Everything.length; i++) {
 		if(Math.abs(parseFloat(Everything[i]['points']) - pendingPoints) <= (pendingPoints * 0.01)){
 			if(Everything[i]['payout'] < floorOutput){
+				floorOutput = Everything[i]['payout'];
+			}
+			if(Everything[i]['payout'] > roofOutput){
 				floorOutput = Everything[i]['payout'];
 			}
 		}
@@ -183,6 +195,7 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 	
 	document.getElementById("output").innerHTML = lowerBound + " - " + upperBound + " BAN";
 	// document.getElementById("output2").innerHTML = output2 + " BAN";
+	document.getElementById("roofOutput").innerHTML = roofOutput + " BAN";
 	document.getElementById("floorOutput").innerHTML = floorOutput + " BAN";
 	
 	if (pointsMode == "ppd") {
