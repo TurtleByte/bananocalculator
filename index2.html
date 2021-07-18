@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <style>
+            table {
+                border-collapse: collapse;
+                border: 2px black solid;
+                font: 12px sans-serif;
+            }
+
+            td {
+                border: 1px black solid;
+                padding: 5px;
+            }
+        </style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="jquery-csv.js" type="text/javascript"></script>
+    </head>
+    <body>
+		a
+		
+		<div id="container"></div>
+		
+		
+		<script>
+		var result = $.csv.toObjects('pain.csv');
+		console.log(result);
+		</script>
+    </body>
+</html>
