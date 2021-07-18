@@ -19,11 +19,11 @@
         <script src="https://d3js.org/d3.v3.min.js"></script>
 
         <script type="text/javascript"charset="utf-8">
-			var superList = [];
-            d3.text("ban139.csv", function(data) {
-                var parsedCSV = d3.csv.parseRows(data);
-				console.log(parsedCSV);
-                console.log(typeof(parsedCSV));
+            d3.csv("ban139.csv", function(data) {
+                for (var i = 0; i < data.length; i++) {
+					console.log(data[i].payout, data[i].points);
+				}
+				/*
 				var container = d3.select("body")
                     .append("table")
 
@@ -35,8 +35,8 @@
                         .data(function(d) { return d; }).enter()
                         .append("td")
                         .text(function(d) { return d; });
+				*/
             });
-			console.log(superList);
         </script>
     </body>
 </html>
