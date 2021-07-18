@@ -154,7 +154,7 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 	console.log("Checking for " + pendingPoints);
 	for (var i = 0; i < Everything.length; i++) {
 		if(Math.abs(parseFloat(Everything[i]['points']) - pendingPoints) <= (pendingPoints * 0.01)){
-			withinRangeList.push(Everything[i]['payout'];
+			withinRangeList.push(Everything[i]['payout']);
 		}
 	}
 	floorOutput = Math.min(withinRangeList);
