@@ -1,5 +1,5 @@
 <html><head>
-  <script type="text/JavaScript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" ></script>
+  <script type="text/JavaScript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" ></script>
   <script src="jquery-csv.js"></script>
 </head>
 <body>
@@ -7,7 +7,7 @@
   // sent a GET request to retrieve the CSV file contents
   $.get( "ban140.csv", function( CSVdata) {
      // CSVdata is populated with the file contents
-     / ready to be converted into an Array
+     // ready to be converted into an Array
       data = $.csv.toArray(CSVdata);
       console.log(data);
       console.log(hi);
