@@ -27,7 +27,7 @@
 <div class="container-fluid" style="width:90%;">
 	<div class="row">
 		<div class="col-sm-8">
-			<h1>F@H Points-to-Banano Experimental Estimator <small>"There Is No Ratio"</small>
+			<h1>F@H Points-to-Banano Estimator <small>"There Is No Ratio"</small>
 			</h1>
 			<div class="row">
 				<div class="col-sm-3">
@@ -57,9 +57,9 @@
 					<h2 align="center">
 						<span id="averageOutput">???</span>
 						<br>
-						<small><b>Average Payout</b><br><span id="text">Earnings per Day.</span></small>
+						<small><b>Average Payout</b><br></small>
 					</h2>
-					<p align="center">This is the average payout for someone within 5% of your pending points.</p>
+					<p align="center"><b><span id="text">Earnings per Day.</span></b> This is the average payout for someone within 5% of your pending points.</p>
 				</div><div class="col-sm-2">
 					<h2 align="center">
 						<span id="medianOutput">???</span>
@@ -78,7 +78,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<h2><small>Things To Know</small></h2>
+				<h2><small>Other Things To Know</small></h2>
 				<ul>
 					<li><b><span id='lowpointswarning' style="color:red"></span></b><b>If your payouts are not accurately depicted here, you are "Penalized" or the payout equation has significantly changed. There is currently no way to reliably predict Penalized payouts but they account for a quarter of all payouts. It is unknown what causes an address to be Penalized. As such, it is also unknown how to remove this penalty.</b></li>
 					<li>"Pending Points" are the points you have accumulated since the last time you were paid by BananoMiner. You can find out how many pending points you have by going to <a href="https://www.monkey2monkey.com/fh-stats/">Monkey2Monkey.com</a> or <a href="https://www.nanners.cc/">Nanners.cc</a>. "Points Per Day" calculations are done on the assumption that the points are evenly distributed among the 2, 12-hour pay periods that typically happen in one day.</li>
@@ -152,12 +152,12 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 		}
 		floorOutput = Math.min(...withinRangeList);
 		roofOutput = Math.max(...withinRangeList);
-		medianOutput = withinRangeList.sort()[Math.floor(withinRangeList.length/2)];
 		let averageOutput = 0;
 		for(var i = 0; i < withinRangeList.length; i++){
 			averageOutput += withinRangeList[i];
 		}
 		averageOutput = averageOutput / withinRangeList.length;
+		medianOutput = withinRangeList.sort()[Math.floor(withinRangeList.length/2)];
 	} else {
 		floorOutput = 0;
 		roofOutput = 0;
@@ -181,9 +181,9 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 	document.getElementById("floorOutput").innerHTML = floorOutput + " BAN";
 	
 	if (pointsMode == "ppd") {
-		document.getElementById("text").innerHTML = "Estimates are in BAN per Day.";
+		document.getElementById("text").innerHTML = "All numbers displayed are in BAN per Day.";
 	} else {
-		document.getElementById("text").innerHTML = "Estimates are for next payout. Payouts occur at noon and midnight UTC.";
+		document.getElementById("text").innerHTML = "All numbers displayed are for one payout. Payouts occur at noon and midnight UTC.";
 	}
 }
 
