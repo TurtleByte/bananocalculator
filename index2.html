@@ -156,8 +156,6 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 		for(var i = 0; i < withinRangeList.length; i++){
 			averageOutput += withinRangeList[i];
 		}
-		console.log(withinRangeList);
-		console.log(averageOutput);
 		averageOutput = averageOutput / withinRangeList.length;
 		let medianOutput = withinRangeList.sort()[Math.floor(withinRangeList.length/2)];
 	} else {
@@ -176,7 +174,7 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 	} else {
 		document.getElementById("lowpointswarning").innerHTML = "";
 	}
-	
+	console.log(averageOutput, medianOutput, roofOutput, floorOutput);
 	document.getElementById("averageOutput").innerHTML = averageOutput + " BAN";
 	document.getElementById("medianOutput").innerHTML = medianOutput + " BAN";
 	document.getElementById("roofOutput").innerHTML = roofOutput + " BAN";
