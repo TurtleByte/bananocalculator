@@ -150,22 +150,17 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 	// MAIN FORMULA END
 	
 	//  OFFSET USES OUTPUT OF MAIN FORMULA
-	let floorOutput = 1000;
-	let roofOutput = 0;
-	console.log("Checking floor for " + pendingPoints);
+	let withinRangeList = [];
+	console.log("Checking for " + pendingPoints);
 	for (var i = 0; i < Everything.length; i++) {
 		if(Math.abs(parseFloat(Everything[i]['points']) - pendingPoints) <= (pendingPoints * 0.01)){
-			if(Everything[i]['payout'] < floorOutput){
-				floorOutput = Everything[i]['payout'];
-			}
-			if(Everything[i]['payout'] > roofOutput){
-				roofOutput = Everything[i]['payout'];
-			}
+			withinRangeList.push(Everything[i]['payout'];
 		}
 	}
+	floorOutput = Math.min(withinRangeList);
+	roofOutput = Math.max(withinRangeList);
+	
 	let offset = Math.min(0.03 * output, 6);
-	
-	
 	lowerBound = (output - offset).toFixed(2);
 	upperBound = (parseFloat(output) + offset).toFixed(2);
 	
