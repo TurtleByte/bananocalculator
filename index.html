@@ -109,15 +109,16 @@
 
 let Everything = [];
 
-d3.csv("scrapes/ban140.csv", function(data) {
-	for (var i = 0; i < data.length; i++) {
+d3.csv("scrapes/ban141.csv", function(data) {
+	for (var i = 1; i < data.length; i++) {
 		Everything.push(data[i]);
 	}
 });
 
 let infoTableArray = [
 	['Payout','BAN Distributed', 'Folders*'],
-	['18-Jul-2021 PM',187309.61,  6211],
+	['19-Jul-2021 AM',186710.13,  6235],
+	['18-Jul-2021 PM',187309.61,  6211], 
 	['18-Jul-2021 AM',189684.72,  6252], 
 	['17-Jul-2021 PM',176495.08,  6203], 
 	['17-Jul-2021 AM',179826.33,  6413], 
