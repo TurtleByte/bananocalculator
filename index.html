@@ -363,6 +363,8 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 
 //makes an HTML table from the array
 	function createTable(array, elementid) {
+		var Table = document.getElementById(elementid);
+		Table.innerHTML = "";
 		for(var i = 1; i < array.length ; i++){
 			var row = document.createElement('tr');
 			row.setAttribute("id", "myTr" + i);
