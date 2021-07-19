@@ -139,7 +139,7 @@ d3.csv("scrapes/ban141.csv", function(data) {
 });
 
 let infoTableArray = [
-	['Payout','BAN Distributed', 'Folders*'],
+	// ['Payout','BAN Distributed', 'Folders*'],
 	['19-Jul-2021 AM',186710.13,  6235],
 	['18-Jul-2021 PM',187309.61,  6211], 
 	['18-Jul-2021 AM',189684.72,  6252], 
@@ -367,7 +367,7 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 	function createTable(array, elementid) {
 		var Table = document.getElementById(elementid);
 		Table.innerHTML = "";
-		for(var i = 1; i < array.length ; i++){
+		for(var i = 0; i < array.length ; i++){
 			var row = document.createElement('tr');
 			row.setAttribute("id", "myTr" + i);
 			document.getElementById(elementid).appendChild(row);
