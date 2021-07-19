@@ -305,6 +305,7 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 	
 	if(pendingPoints >= 3000){
 		let withinRangeList = [];
+		withinRangeArray = [];
 		for (var i = 0; i < Everything.length; i++) {
 			if(Math.abs(parseFloat(Everything[i]['points']) - pendingPoints) <= (pendingPoints * 0.05)){
 				withinRangeArray.push([Everything[i]['username'], Everything[i]['points'], Everything[i]['payout']]);
