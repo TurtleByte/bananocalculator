@@ -113,6 +113,14 @@ d3.csv("scrapes/ban141.csv", function(data) {
 	for (var i = 1; i < data.length; i++) {
 		Everything.push(data[i]);
 	}
+
+	// populate data from search params once CSV data loaded
+	let params = new URLSearchParams(window.location.search);
+	if (params.get("mode") && params.get("points")) {
+		updateValuesInternal(params.get("mode"), params.get("points"));
+		pointsModeElement.value = params.get("mode");
+		pendingPointsElement.value = params.get("points");
+	}
 });
 
 let infoTableArray = [
@@ -267,12 +275,6 @@ let foldDurationElement = document.getElementById("foldduration");
 
 $(document).ready(function(){
 	$('[data-toggle="popover"]').popover(); 
-	let params = new URLSearchParams(window.location.search);
-	if (params.get("mode") && params.get("points")) {
-		updateValuesInternal(params.get("mode"), params.get("points"));
-		pointsModeElement.value = params.get("mode");
-		pendingPointsElement.value = params.get("points");
-	}
 });
 
 function updateValues() {
