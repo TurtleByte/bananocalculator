@@ -22,7 +22,7 @@
 	<script
 	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
 	</script>
-<body onload="createTable(infoTableArray)">
+<body onload="createTable(infoTableArray, 'infoTable')">
 
 <div class="container-fluid" style="width:90%;">
 	<div class="row">
@@ -80,15 +80,29 @@
 			<div class="row">
 				<h2><small>Other Things To Know</small></h2>
 				<ul>
-					<li><b><span id='lowpointswarning' style="color:red"></span><span id="text">All numbers displayed are in BAN per Day.</span> The total number of payouts within 5% of your pending points is <span id="rangepopulation">0</span>.</b></li>
-					<li>The data being displayed is based on the latest payout data. Refer to the table on the right. "Pending Points" are the points you have accumulated since the last time you were paid by BananoMiner. You can find out how many pending points you have by going to <a href="https://www.monkey2monkey.com/fh-stats/">Monkey2Monkey.com</a> or <a href="https://www.nanners.cc/">Nanners.cc</a>. "Points Per Day" calculations are done on the assumption that the points are evenly distributed among the 2, 12-hour pay periods that typically happen in one day.</li>
-					<li><b>(*) Number in parentheses are included in the number of Folders Paid. They are Folders who were paid 0 BAN for their work. It was an error that has since been fixed. The table outlining the statistics of recent payouts may contain inaccuracies.</b></li>
+					<li><b><span id='lowpointswarning' style="color:red"></span><span id="text">All numbers displayed are in BAN per Day.</span> The total number of Folders who were paid last cycle within 5% of your Points is <span id="rangepopulation">0</span>.</b></li>
+					<li>The data being displayed is based on the latest payout data (Refer to the table on the right). "Pending Points" are the points you have accumulated since the last time you were paid by BananoMiner. You can find out how many pending points you have by going to <a href="https://www.monkey2monkey.com/fh-stats/">Monkey2Monkey.com</a> or <a href="https://www.nanners.cc/">Nanners.cc</a>. "Points Per Day" calculations are done on the assumption that the points are evenly distributed among the 2, 12-hour pay periods that typically happen in one day.</li>
+					<li>(*) Number in parentheses are included in the number of Folders Paid. They are Folders who were paid 0 BAN for their work. It was an error that has since been fixed. The table outlining the statistics of recent payouts may contain inaccuracies.</li>
 				</ul>	
 				<p>If you'd like to donate some BAN, click <button class="btn" onclick="addressToClipboard()">here</button> to copy my BAN address to your clipboard.
 			</div>
 			<canvas id="myChart" style="width:80%;"></canvas>
 		</div>
-		<div class="col-sm-4" style="height:100%; overflow-y:scroll;">
+		<div class="col-sm-4" style="height:45%; overflow-y:scroll;">
+			<br>
+			<table class="table table-striped">
+				<thead>
+				  <tr>
+					<th>Username</th>
+					<th>Points</th>
+					<th>Payout</th>
+				  </tr>
+				</thead>
+				<tbody id="payoutTable">
+				</tbody>
+			</table>
+		</div>
+		<div class="col-sm-4" style="height:45%; overflow-y:scroll;">
 			<br>
 			<table class="table table-striped">
 				<thead>
@@ -272,6 +286,7 @@ let pendingPointsElement = document.getElementById("pendingpoints");
 let banPriceElement = document.getElementById("banprice");
 let pointsModeElement = document.getElementById("pointsMode");
 let foldDurationElement = document.getElementById("foldduration");
+let withinRangeArray = [];
 
 $(document).ready(function(){
 	$('[data-toggle="popover"]').popover(); 
@@ -292,6 +307,7 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 		let withinRangeList = [];
 		for (var i = 0; i < Everything.length; i++) {
 			if(Math.abs(parseFloat(Everything[i]['points']) - pendingPoints) <= (pendingPoints * 0.05)){
+				withinRangeArray.push([Everything[i]['username'], Everything[i]['points'], Everything[i]['payout']]);
 				withinRangeList.push(parseFloat(Everything[i]['payout']));
 			}
 		}
@@ -331,6 +347,7 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 		floorOutput = floorOutput * 2;
 	}
 	
+	createTable(withinRangeArray, 'payoutTable')
 	document.getElementById("averageOutput").innerHTML = averageOutput.toFixed(2) + " BAN";
 	document.getElementById("medianOutput").innerHTML = medianOutput.toFixed(2) + " BAN";
 	document.getElementById("roofOutput").innerHTML = roofOutput.toFixed(2) + " BAN";
@@ -345,11 +362,11 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 }
 
 //makes an HTML table from the array
-	function createTable(array) {
+	function createTable(array, elementid) {
 		for(var i = 1; i < array.length ; i++){
 			var row = document.createElement('tr');
 			row.setAttribute("id", "myTr" + i);
-			document.getElementById("infoTable").appendChild(row);
+			document.getElementById(elementid).appendChild(row);
 			for(var j = 0; j < array[i].length; j++){
 				var cell = document.createElement('td');
 				var content = document.createTextNode(array[i][j]);
