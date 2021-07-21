@@ -124,7 +124,7 @@
 
 let Everything = [];
 
-d3.csv("scrapes/ban144.csv", function(data) {
+d3.csv("scrapes/ban146.csv", function(data) {
 	for (var i = 1; i < data.length; i++) {
 		Everything.push(data[i]);
 	}
@@ -140,6 +140,8 @@ d3.csv("scrapes/ban144.csv", function(data) {
 
 let infoTableArray = [
 	// ['Payout','BAN Distributed', 'Folders*'],
+	['21-Jul-2021 PM',177084.90,  6165],
+	['21-Jul-2021 AM',187363.31,  6391],
 	['20-Jul-2021 PM',179866.21,  6286],
 	['20-Jul-2021 AM',186240.91,  6356],
 	['19-Jul-2021 PM',182974.82,  6184],
@@ -390,7 +392,7 @@ function updateValuesInternal(pointsMode, pendingPoints) {
 var xValues = [];
 var payoutValues = [];
 var folderValues = [];
-for(var i = 1; i <= 60; i++){
+for(var i = 0; i <= 60; i++){
 	xValues.push(infoTableArray[i][0]);
 	payoutValues.push(infoTableArray[i][1]);
 	folderValues.push(infoTableArray[i][2]);
