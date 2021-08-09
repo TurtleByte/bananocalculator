@@ -124,7 +124,7 @@
 
 let Everything = [];
 
-d3.csv("scrapes/ban180.csv", function(data) {
+d3.csv("scrapes/ban183.csv", function(data) {
 	for (var i = 1; i < data.length; i++) {
 		Everything.push(data[i]);
 	}
@@ -140,6 +140,9 @@ d3.csv("scrapes/ban180.csv", function(data) {
 
 let infoTableArray = [
 	// ['Payout','BAN Distributed', 'Folders*'],
+	['09-Aug-2021 PM',80716.54,  2542],
+	['09-Aug-2021 AM',129490.94,  5189],
+	['08-Aug-2021 PM',127361.08,  4955],
 	['08-Aug-2021 AM',132162.83,  5184],
 	['07-Aug-2021 PM',145820.96,  5023],
 	['07-Aug-2021 AM',155652.97,  5449],
