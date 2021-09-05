@@ -96,20 +96,21 @@ else:
     hour = 0
 
 dateOfFold = datetime(currentDate.year, currentDate.month, currentDate.day, hour)
-dateOfFoldUnix = time.mktime(dateOfFold.timetuple())
+timeShift =  time.mktime(datetime.now().timetuple()) - time.mktime(datetime.utcnow().timetuple()) #manually implement timezone shift since mktime only accepts local time
+dateOfFoldUnix = time.mktime(dateOfFold.timetuple()) + timeShift
 print("Querying for Payout on", dateOfFold)
 account = "ban_3fo1d1ng6mfqumfoojqby13nahaugqbe5n6n3trof4q8kg5amo9mribg4muo"
 
 tempjson = ban.account_history(account, numberToGet)    
 while True:
-    print(numberToGet, dateOfFoldUnix, tempjson['history'][-1]['local_timestamp'] - 28800)
+    print(numberToGet, dateOfFoldUnix, tempjson['history'][-1]['local_timestamp'] )
     transactionCount = 0
     listOfFolders = []
     for transaction in tempjson['history']:
-        if transaction['local_timestamp'] - 28800 > dateOfFoldUnix and transaction['type'] == 'send':
+        if transaction['local_timestamp'] > dateOfFoldUnix and transaction['type'] == 'send':
             listOfFolders.append(addressToUserDict[transaction['account']])
             transactionCount += 1
-    if tempjson['history'][-1]['local_timestamp'] - 28800 < dateOfFoldUnix:
+    if tempjson['history'][-1]['local_timestamp']  < dateOfFoldUnix:
         break
     else:
         tempjson = ban.account_history(account, numberToGet, head=tempjson['previous'])
